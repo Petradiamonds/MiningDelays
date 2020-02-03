@@ -34,6 +34,40 @@
         <!-- NAV END -->
 
         <!-- Main Content Start-->
+        <?php
+        //SQL Connect Equipment
+        $sql = 'select * from [tDelaysEquipment]
+                WHERE [Active] = -1 and EquipmentID = :Equipment 
+                Order By EquipmentDescription ASC;';
+        $sqlargs = array('Equipment' => $_GET['Equipment']);
+        require_once 'config/db_query.php'; 
+        $Eq =  sqlQuery($sql,$sqlargs);
+
+        //Component
+        $sql = 'select * from [tDelaysComponent]
+                WHERE [Active] = -1 and ComponentID = :Component 
+                Order By ComponentDescription ASC;';
+        $sqlargs = array('Component' => $_GET['Component']);
+        require_once 'config/db_query.php'; 
+        $Co =  sqlQuery($sql,$sqlargs);
+
+        //Failure
+        $sql = 'select * from [tDelaysFailure]
+                WHERE [Active] = -1 and FailureID = :Failure 
+                Order By FailureDescription ASC;';
+        $sqlargs = array('Failure' => $_GET['Failure']);
+        require_once 'config/db_query.php'; 
+        $Fa =  sqlQuery($sql,$sqlargs);
+
+        //Discipline
+        $sql = 'select * from [tDelaysDiscipline]
+                WHERE [Active] = -1 and DisciplineID = :Discipline 
+                Order By DisciplineDescription ASC;';
+        $sqlargs = array('Discipline' => $_GET['Discipline']);
+        require_once 'config/db_query.php'; 
+        $Di =  sqlQuery($sql,$sqlargs);
+        ?>
+
 
         <!-- Form Summary -->
         <div class="card my-3">
@@ -44,19 +78,23 @@
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="Equipment">Equipment</label>
-                        <input type="text" value="Option6" class="form-control" id="Equipment" readonly>
+                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentDescription'] ?>" class="form-control"
+                            id="Equipment" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Component">Component</label>
-                        <input type="text" value="Option7" class="form-control" id="Component" readonly>
+                        <input type="text" value="<?php echo $Co[0][0]['ComponentDescription'] ?>" class="form-control"
+                            id="Component" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Failure">Failure</label>
-                        <input type="text" value="Option8" class="form-control" id="Failure" readonly>
+                        <input type="text" value="<?php echo $Fa[0][0]['FailureDescription'] ?>" class="form-control"
+                            id="Failure" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="ComponentDiscipline">Component Discipline</label>
-                        <input type="text" value="Option9" class="form-control" id="ComponentDiscipline" readonly>
+                        <input type="text" value="<?php echo $Di[0][0]['DisciplineDescription'] ?>" class="form-control"
+                            id="ComponentDiscipline" readonly>
                     </div>
                 </div>
             </div>
@@ -96,10 +134,15 @@
                             placeholder="Type you comments here...">
                     </div>
 
+                    <input type="hidden" name="EquipmentType" value="<?php echo $_GET['EquipmentType']; ?>">
+                    <input type="hidden" name="Equipment" value="<?php echo $_GET['Equipment']; ?>">
+                    <input type="hidden" name="Component" value="<?php echo $_GET['Component']; ?>">
+                    <input type="hidden" name="Failure" value="<?php echo $_GET['Failure']; ?>">
+                    <input type="hidden" name="Discipline" value="<?php echo $_GET['Discipline']; ?>">
                     <div class="row my-3">
                         <div class="col-6">
                             <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="window.history.go(-1);">Back</button>
+                                onclick="document.location.href='index.php'">Restart</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-outline-success btn-lg form-control">Save</button>

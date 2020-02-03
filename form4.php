@@ -35,6 +35,16 @@
 
         <!-- Main Content Start-->
 
+        <?php
+        #SQL Connect
+        $sql = 'select * from [tDelaysDiscipline]
+                WHERE [Active] = -1
+                Order By DisciplineDescription ASC;';
+        $sqlargs = array();
+        require_once 'config/db_query.php'; 
+        $Eq =  sqlQuery($sql,$sqlargs);
+        ?>
+
         <!-- BreadCrumb Start -->
         <div class="my-1">
             <nav aria-label="breadcrumb">
@@ -57,91 +67,36 @@
             </div>
             <div class="card-body">
                 <form action="Complete.php">
+                    <?php
+                    $i = 0;
+                    foreach ($Eq[0] as $Opt) {
+                    ?>
 
                     <!-- Radio1 -->
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio1">
+                                <input type="radio" name="Discipline" value="<?php echo $Opt["DisciplineId"]; ?>"
+                                    required id="radio<?php echo $i; ?>">
                             </div>
                         </div>
-                        <label class="input-group-text form-control" for="radio1">Option 1</label>
+                        <label class="input-group-text form-control"
+                            for="radio<?php echo $i; ?>"><?php echo $Opt["DisciplineDescription"] ?></label>
                     </div>
 
-                    <!-- Radio2 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio2">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio2">Option 2</label>
-                    </div>
+                    <?php
+                    $i++;
+                    }
+                    ?>
 
-                    <!-- Radio3 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio3">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio3">Option 3</label>
-                    </div>
-
-                    <!-- Radio4 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio4">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio4">Option 4</label>
-                    </div>
-
-                    <!-- Radio5 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio5">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio5">Option 5</label>
-                    </div>
-
-                    <!-- Radio6 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio6">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio6">Option 6</label>
-                    </div>
-
-                    <!-- Radio7 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio7">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio7">Option 7</label>
-                    </div>
-
-                    <!-- Radio8 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="ComponentDiscipline" required id="radio8">
-                            </div>
-                        </div>
-                        <label class="input-group-text form-control" for="radio8">Option 8</label>
-                    </div>
-
+                    <input type="hidden" name="EquipmentType" value="<?php echo $_GET['EquipmentType']; ?>">
+                    <input type="hidden" name="Equipment" value="<?php echo $_GET['Equipment']; ?>">
+                    <input type="hidden" name="Component" value="<?php echo $_GET['Component']; ?>">
+                    <input type="hidden" name="Failure" value="<?php echo $_GET['Failure']; ?>">
                     <div class="row my-3">
                         <div class="col-6">
                             <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="window.history.go(-1);">Back</button>
+                                onclick="document.location.href='index.php'">Restart</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-outline-primary btn-lg form-control">Next</button>

@@ -45,7 +45,7 @@
             </div>
 
             <div class="text-center d-flex flex-column justify-content-center text-light p-5">
-                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='Form1.php'">+ New
+                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='start.php'">+ New
                     Delay</button>
                 <button class="btn btn-outline-primary btn-lg my-2"
                     onclick="document.location.href='Summary.php'">Update Delay</button>

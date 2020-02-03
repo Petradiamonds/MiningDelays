@@ -37,64 +37,38 @@
 
         <?php
         #SQL Connect
-        $sql = 'select * from [tDelaysEquipment]
-                WHERE [Active] = -1 and EquipmentTypeID = :EquipmentType 
-                Order By EquipmentDescription ASC;';
-        $sqlargs = array('EquipmentType' => $_GET['EquipmentType']);
+        $sql = 'select * from [tDelaysEquipmentType];';
+        $sqlargs = array();
         require_once 'config/db_query.php'; 
-        $Eq =  sqlQuery($sql,$sqlargs);
+        $EqType =  sqlQuery($sql,$sqlargs);
         ?>
 
-        <!-- BreadCrumb Start -->
-        <div class="my-1">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item  text-primary active font-weight-bold" aria-current="page">Equipment
-                    </li>
-                    <li class="breadcrumb-item " aria-current="page">Component</li>
-                    <li class="breadcrumb-item " aria-current="page">Failure</li>
-                    <li class="breadcrumb-item " aria-current="page">ComponentDiscipline</li>
-                </ol>
-            </nav>
-        </div>
-        <!-- BreadCrumb End -->
 
         <!-- form start-->
         <div class="card">
             <div class="card-header bg-success">
-                Equipment
+                Delay Selection
             </div>
             <div class="card-body">
-                <form action="Form2.php">
+                <form action="Form1.php">
 
-                    <?php
-                    $i = 0;
-                    foreach ($Eq[0] as $Opt) {
-                    ?>
-
-                    <!-- Radio1 -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="radio" name="Equipment" value="<?php echo $Opt["EquipmentId"]; ?>" required
-                                    id="radio<?php echo $i; ?>">
-                            </div>
+                    <div class="form-row-3">
+                        <div class="form-group col-md-12">
+                            <label for="EquipmentType">Equipment Type:</label>
+                            <select name="EquipmentType" id="EquipmentType" class="form-control" required>
+                                <option value="">Please Select</option>
+                                <?php
+                                foreach ($EqType[0] as $opt) {
+                                    echo '<option value="'.$opt['EquipmentTypeId'].'">'.$opt['EquipmentType'].'</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
-                        <label class="input-group-text form-control"
-                            for="radio<?php echo $i; ?>"><?php echo $Opt["EquipmentDescription"] ?></label>
                     </div>
-
-                    <?php
-                    $i++;
-                    }
-                    ?>
-
-
-                    <input type="hidden" name="EquipmentType" value="<?php echo $_GET['EquipmentType']; ?>">
                     <div class="row my-3">
                         <div class="col-6">
                             <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="window.history.go(-1);">Restart</button>
+                                onclick="document.location.href='index.php'">Cancel</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-outline-primary btn-lg form-control">Next</button>

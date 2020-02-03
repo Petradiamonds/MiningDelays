@@ -1,8 +1,8 @@
 <?php
-    $host = 'DESKTOP-G703EN6';
-    $db   = 'TIMS';
+    $host = '10.110.113.15';
+    $db   = 'Minmis';
     $user = 'sa';
-    $pass = 'root00--';
+    $pass = 'Portia+po3';
 
     $dsn = "sqlsrv:Server=$host;Database=$db";
     $options = [

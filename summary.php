@@ -35,12 +35,27 @@
         <!-- NAV END -->
 
         <!-- Main Content Start-->
+        <?php
+        $SelectDate = date('Y-m-d');
+        
+        if(isset($_GET['SelectDate'])){
+            $SelectDate = $_GET['SelectDate'];
+        }
+
+        #SQL Connect
+        $sql = 'select * from [tDelaysActuals]
+                where CalendarDate = :SelectDate;';
+        $sqlargs = array('SelectDate' => $SelectDate);
+        require_once 'config/db_query.php'; 
+        $Users =  sqlQuery($sql,$sqlargs);
+        ?>
+
 
         <!-- Form Summary -->
         <div class="card my-3">
             <div class="card-header bg-dark text-white">
                 Change Date:
-                <input class="form-control" type="date" name="SelectDate">
+                <input class="form-control" type="date" name="SelectDate" value="<?php echo $SelectDate; ?>">
                 <br>
                 Delay Summary:
             </div>
@@ -529,6 +544,8 @@
                 <!-- Table End -->
             </div>
         </div>
+        <button class="btn btn-outline-primary btn-lg form-control"
+            onclick="document.location.href='index.php'">Home</button>
         <!-- Form Summary -->
         <br><br>
         <!-- Main Content Start-->
