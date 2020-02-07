@@ -57,7 +57,7 @@
                 inner join tDelaysDiscipline on tDelaysDiscipline.DisciplineID = tDelaysActuals.DisciplineID
                 inner join tDelaysFailure on tDelaysFailure.FailureID = tDelaysActuals.FailureID
 
-                where CalendarDate =:SelectDate;';
+                where CalendarDateStart =:SelectDate;';
         $sqlargs = array('SelectDate' => $SelectDate);
         require_once 'config/db_query.php'; 
         $Delays =  sqlQuery($sql,$sqlargs);
@@ -95,13 +95,13 @@
                     <thead>
                         <tr>
                             <th>Edit</th>
-                            <th>Shift#</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
                             <th>Component</th>
                             <th>Discipline</th>
                             <th>Failure</th>
                             <th>Start</th>
+                            <th>Date End</th>
                             <th>End</th>
                             <th>Hours</th>
                             <th>Comment</th>
@@ -112,21 +112,23 @@
                     $i = 0;
                     foreach ($Delays[0] as $Rec) {
                     ?>
-                        <tr>
-                            <td> <a
-                                    href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
-                            </td>
-                            <td><?php echo $Rec['ShiftNumber']; ?></td>
-                            <td><?php echo $Rec['EquipmentType']; ?></td>
-                            <td><?php echo $Rec['EquipmentDescription']; ?></td>
-                            <td><?php echo $Rec['ComponentDescription']; ?></td>
-                            <td><?php echo $Rec['DisciplineDescription']; ?></td>
-                            <td><?php echo $Rec['FailureDescription']; ?></td>
-                            <td><?php echo $Rec['StartTime']; ?></td>
-                            <td><?php echo $Rec['EndTime']; ?></td>
-                            <td><?php echo $Rec['BreakdownHours']; ?></td>
-                            <td><?php echo $Rec['AdditionalReason']; ?></td>
-                        </tr>
+                        <form action="edit.php" method="POST">
+                            <tr>
+                                <td> <a class="btn btn-primary btn-block btn-xs"
+                                        href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
+                                </td>
+                                <td><?php echo $Rec['EquipmentType']; ?></td>
+                                <td><?php echo $Rec['EquipmentDescription']; ?></td>
+                                <td><?php echo $Rec['ComponentDescription']; ?></td>
+                                <td><?php echo $Rec['DisciplineDescription']; ?></td>
+                                <td><?php echo $Rec['FailureDescription']; ?></td>
+                                <td><?php echo $Rec['StartTime']; ?></td>
+                                <td><?php echo $Rec['CalendarDateEnd']; ?></td>
+                                <td><?php echo $Rec['EndTime']; ?></td>
+                                <td><?php echo $Rec['BreakdownHours']; ?></td>
+                                <td><?php echo $Rec['AdditionalReason']; ?></td>
+                            </tr>
+                        </form>
                         <?php
                         }
                         ?>
@@ -134,7 +136,6 @@
                     <tfoot>
                         <tr>
                             <th></th>
-                            <th>Shift#</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
                             <th>Component</th>

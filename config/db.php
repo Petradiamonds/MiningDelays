@@ -1,8 +1,8 @@
 <?php
-    $host = '10.110.113.15';
-    $db   = 'Minmis';
-    $user = 'sa';
-    $pass = 'Portia+po3';
+    $host = 'kof-ser-sql-01';
+    $db   = 'PDP';
+    $user = 'TMMDelays';
+    $pass = 'TMMDelays#';
 
     $dsn = "sqlsrv:Server=$host;Database=$db";
     $options = [

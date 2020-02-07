@@ -50,7 +50,7 @@
                 <button class="btn btn-outline-primary btn-lg my-2"
                     onclick="document.location.href='Summary.php'">Update Delay</button>
                 <button class="btn btn-outline-primary btn-lg my-2"
-                    onclick="document.location.href='Settings.php'">Update System Settings</button>
+                    onclick="document.location.href='Settings.php'">Maintenance Delay</button>
             </div>
         </section>
 

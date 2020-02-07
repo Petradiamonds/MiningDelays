@@ -37,10 +37,11 @@
 
         <?php
         #SQL Connect
-        $sql = 'select * from [tDelaysDiscipline]
-                WHERE [Active] = -1
-                Order By DisciplineDescription ASC;';
-        $sqlargs = array();
+        $sql = 'select * from [vDiscFail_Link]
+                WHERE DisciplineId = :Discipline
+                Order By FailureDescription ASC;';
+        
+        $sqlargs = array('Discipline' => $_GET['Discipline']);
         require_once 'config/db_query.php'; 
         $Eq =  sqlQuery($sql,$sqlargs);
         ?>
@@ -52,9 +53,9 @@
                     <li class="breadcrumb-item " aria-current="page">Equipment
                     </li>
                     <li class="breadcrumb-item " aria-current="page">Component</li>
-                    <li class="breadcrumb-item " aria-current="page">Failure</li>
+                    <li class="breadcrumb-item " aria-current="page">Component Discipline</li>
                     <li class="breadcrumb-item  text-primary active font-weight-bold" aria-current="page">
-                        Component Discipline</li>
+                        Failure</li>
                 </ol>
             </nav>
         </div>
@@ -76,12 +77,12 @@
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
-                                <input type="radio" name="Discipline" value="<?php echo $Opt["DisciplineId"]; ?>"
-                                    required id="radio<?php echo $i; ?>">
+                                <input type="radio" name="Failure" value="<?php echo $Opt["FailureId"]; ?>" required
+                                    id="radio<?php echo $i; ?>">
                             </div>
                         </div>
                         <label class="input-group-text form-control"
-                            for="radio<?php echo $i; ?>"><?php echo $Opt["DisciplineDescription"] ?></label>
+                            for="radio<?php echo $i; ?>"><?php echo $Opt["FailureDescription"] ?></label>
                     </div>
 
                     <?php
@@ -92,7 +93,7 @@
                     <input type="hidden" name="EquipmentType" value="<?php echo $_GET['EquipmentType']; ?>">
                     <input type="hidden" name="Equipment" value="<?php echo $_GET['Equipment']; ?>">
                     <input type="hidden" name="Component" value="<?php echo $_GET['Component']; ?>">
-                    <input type="hidden" name="Failure" value="<?php echo $_GET['Failure']; ?>">
+                    <input type="hidden" name="Discipline" value="<?php echo $_GET['Discipline']; ?>">
                     <div class="row my-3">
                         <div class="col-6">
                             <button class="btn btn-outline-danger btn-lg form-control"

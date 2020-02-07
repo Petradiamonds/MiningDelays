@@ -52,8 +52,8 @@
                     <li class="breadcrumb-item  text-primary active font-weight-bold" aria-current="page">Equipment
                     </li>
                     <li class="breadcrumb-item " aria-current="page">Component</li>
-                    <li class="breadcrumb-item " aria-current="page">Failure</li>
                     <li class="breadcrumb-item " aria-current="page">ComponentDiscipline</li>
+                    <li class="breadcrumb-item " aria-current="page">Failure</li>
                 </ol>
             </nav>
         </div>

@@ -1,3 +1,61 @@
+<?php
+if (isset($_POST['EquipmentType'])){
+$EquipmentType = $_POST['EquipmentType'];
+$Equipment =  $_POST['Equipment'];
+$Component =  $_POST['Component'];
+$Failure =  $_POST['Failure'];
+$Discipline =  $_POST['Discipline'];
+$inputAddress =  $_POST['inputAddress'];
+
+$StartDate =  $_POST['StartDate'];
+$EndDate =  $_POST['EndDate'];
+$ShiftNr =  $_POST['ShiftNr'];
+$StartTime =  $_POST['StartTime'];
+$EndTime =  $_POST['EndTime'];
+$uid = $_SERVER['AUTH_USER'];
+
+$sql = "INSERT INTO tDelaysActuals (
+            CalendarDateStart,
+            EquipmentTypeId,
+            EquipmentId,
+            ComponentId,
+            DisciplineId,
+            FailureId,
+            StartTime,
+            EndTime,
+            CalendarDateEnd,
+            BreakdownHours,
+            Tons,
+            AdditionalReason,
+            UserId)
+
+        VALUES(
+            '$StartDate',
+            '$EquipmentType',
+            '$Equipment',
+            '$Component',
+            '$Discipline',
+            '$Failure',
+            '$StartTime',
+            '$EndTime',
+            '$EndDate',
+            '0',
+            '0',
+            '$inputAddress',
+            '$uid'
+            );
+        ";
+
+$sqlargs = array();
+require_once 'config/db_query.php'; 
+$Eq =  sqlQuery($sql,$sqlargs);
+
+echo "<script> document.location.href='index.php' </script>";
+die;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,30 +165,33 @@
                 Save Delay
             </div>
             <div class="card-body">
-                <form action="index.php" method="POST">
-
+                <form method="POST">
 
                     <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="ShiftNr">Shift Nr</label>
+                            <input type="number" class="form-control" id="ShiftNr" name="ShiftNr" required>
+                        </div>
                         <div class="form-group col-md-3">
                             <label for="StartDate">Start Date</label>
-                            <input type="date" class="form-control" id="StartDate" required>
+                            <input type="date" class="form-control" id="StartDate" name="StartDate" required>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="ShiftNr">Shift Nr</label>
-                            <input type="number" class="form-control" id="ShiftNr" required>
-                        </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label for="StartTime">Start Time</label>
-                            <input type="time" class="form-control" id="StartTime" required>
+                            <input type="time" class="form-control" id="StartTime" name="StartTime" required>
                         </div>
                         <div class="form-group col-md-3">
+                            <label for="EndDate">End Date</label>
+                            <input type="date" class="form-control" id="EndDate" name="EndDate">
+                        </div>
+                        <div class="form-group col-md-2">
                             <label for="EndTime">End Time</label>
-                            <input type="time" class="form-control" id="EndTime" required>
+                            <input type="time" class="form-control" id="EndTime" name="EndTime">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputAddress">Free Text / Notes / Comments</label>
-                        <input type="text" class="form-control" id="inputAddress"
+                        <input type="text" class="form-control" id="inputAddress" name="inputAddress"
                             placeholder="Type you comments here...">
                     </div>
 

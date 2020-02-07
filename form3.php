@@ -37,10 +37,10 @@
 
         <?php
         #SQL Connect
-        $sql = 'select * from [tDelaysFailure]
-                WHERE [Active] = -1 and EquipmentTypeID = :EquipmentType 
-                Order By FailureDescription ASC;';
-        $sqlargs = array('EquipmentType' => $_GET['EquipmentType']);
+        $sql = 'select * from [vEquipCompDisc_link]
+                WHERE EquipmentTypeID = :EquipmentType and ComponentId = :Component
+                Order By DisciplineDescription ASC;';
+        $sqlargs = array('EquipmentType' => $_GET['EquipmentType'], 'Component' => $_GET['Component']);
         require_once 'config/db_query.php'; 
         $Eq =  sqlQuery($sql,$sqlargs);
         ?>
@@ -52,8 +52,9 @@
                     <li class="breadcrumb-item " aria-current="page">Equipment
                     </li>
                     <li class="breadcrumb-item " aria-current="page">Component</li>
-                    <li class="breadcrumb-item  text-primary active font-weight-bold" aria-current="page">Failure</li>
-                    <li class="breadcrumb-item " aria-current="page">ComponentDiscipline</li>
+                    <li class="breadcrumb-item  text-primary active font-weight-bold" aria-current="page">
+                        ComponentDiscipline</li>
+                    <li class="breadcrumb-item " aria-current="page">Failure</li>
                 </ol>
             </nav>
         </div>
@@ -62,7 +63,7 @@
         <!-- form start-->
         <div class="card">
             <div class="card-header">
-                Failure
+                ComponentDiscipline
             </div>
             <div class="card-body">
                 <form action="Form4.php">
@@ -75,12 +76,12 @@
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
-                                <input type="radio" name="Failure" value="<?php echo $Opt["FailureId"]; ?>" required
-                                    id="radio<?php echo $i; ?>">
+                                <input type="radio" name="Discipline" value="<?php echo $Opt["DisciplineId"]; ?>"
+                                    required id="radio<?php echo $i; ?>">
                             </div>
                         </div>
                         <label class="input-group-text form-control"
-                            for="radio<?php echo $i; ?>"><?php echo $Opt["FailureDescription"] ?></label>
+                            for="radio<?php echo $i; ?>"><?php echo $Opt["DisciplineDescription"] ?></label>
                     </div>
 
                     <?php
