@@ -1,5 +1,6 @@
 <?php
-if (isset($_POST['EquipmentType'])){
+if (isset($_POST['Delay'])){
+$ID = $_POST['Delay'];
 $EquipmentType = $_POST['EquipmentType'];
 $Equipment =  $_POST['Equipment'];
 $Component =  $_POST['Component'];
@@ -9,41 +10,25 @@ $inputAddress =  $_POST['inputAddress'];
 
 $StartDate =  $_POST['StartDate'];
 $EndDate =  $_POST['EndDate'];
-$ShiftNr =  $_POST['ShiftNr'];
 $StartTime =  $_POST['StartTime'];
 $EndTime =  $_POST['EndTime'];
 $uid = $_SERVER['AUTH_USER'];
 
-$sql = "INSERT INTO tDelaysActuals (
-            CalendarDateStart,
-            EquipmentTypeId,
-            EquipmentId,
-            ComponentId,
-            DisciplineId,
-            FailureId,
-            StartTime,
-            EndTime,
-            CalendarDateEnd,
-            BreakdownHours,
-            Tons,
-            AdditionalReason,
-            UserId)
-
-        VALUES(
-            '$StartDate',
-            '$EquipmentType',
-            '$Equipment',
-            '$Component',
-            '$Discipline',
-            '$Failure',
-            '$StartTime',
-            '$EndTime',
-            '$EndDate',
-            '0',
-            '0',
-            '$inputAddress',
-            '$uid'
-            );
+$sql = "UPDATE tDelaysActuals SET
+            CalendarDateStart = '$StartDate',
+            EquipmentTypeId = '$EquipmentType',
+            EquipmentId = '$Equipment',
+            ComponentId = '$Component',
+            DisciplineId = '$Discipline',
+            FailureId = '$Failure',
+            StartTime = '$StartTime',
+            EndTime = '$EndTime',
+            CalendarDateEnd = '$EndDate',
+            BreakdownHours = '0',
+            Tons = '0',
+            AdditionalReason = '$inputAddress',
+            UserId = '$uid'
+        WHERE DelayId = $ID;
         ";
 
 $sqlargs = array();
@@ -94,15 +79,12 @@ die;
         <!-- Main Content Start-->
         <?php
         //SQL Connect Equipment
-        $sql = 'select top 1000 [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
+        $sql = 'select [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
                 WHERE DelayId = :ID;';
         $sqlargs = array('ID' => $_GET['DelayId']);
         require_once 'config/db_query.php'; 
         $Eq =  sqlQuery($sql,$sqlargs);
-
-
         ?>
-
 
         <!-- Form Summary -->
         <div class="card my-3">
@@ -144,43 +126,44 @@ die;
             <div class="card-body">
                 <form method="POST">
 
+                    <input type="hidden" name="Delay" value="<?php echo  $Eq[0][0]['DelayId']; ?>">
+                    <input type="hidden" name="EquipmentType" value="<?php echo  $Eq[0][0]['EquipmentTypeID']; ?>">
+                    <input type="hidden" name="Equipment" value="<?php echo  $Eq[0][0]['EquipmentId']; ?>">
+                    <input type="hidden" name="Component" value="<?php echo  $Eq[0][0]['ComponentId']; ?>">
+                    <input type="hidden" name="Failure" value="<?php echo  $Eq[0][0]['FailureId']; ?>">
+                    <input type="hidden" name="Discipline" value="<?php echo  $Eq[0][0]['DisciplineId']; ?>">
+
                     <div class="form-row">
-                        <div class="form-group col-md-2">
-                            <label for="ShiftNr">Shift Nr</label>
-                            <input type="number" class="form-control" id="ShiftNr" name="ShiftNr" required>
-                        </div>
                         <div class="form-group col-md-3">
                             <label for="StartDate">Start Date</label>
-                            <input type="date" class="form-control" id="StartDate" name="StartDate" required>
+                            <input type="date" class="form-control" id="StartDate" name="StartDate"
+                                value="<?php echo substr($Eq[0][0]['CalendarDateStart'],0,10); ?>" readonly>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <label for="StartTime">Start Time</label>
-                            <input type="time" class="form-control" id="StartTime" name="StartTime" required>
+                            <input type="time" class="form-control" id="StartTime" name="StartTime"
+                                value="<?php echo ($Eq[0][0]['StartTime']) ?>" readonly>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="EndDate">End Date</label>
-                            <input type="date" class="form-control" id="EndDate" name="EndDate">
+                            <input type="date" class="form-control" id="EndDate" name="EndDate" value="" required>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <label for="EndTime">End Time</label>
-                            <input type="time" class="form-control" id="EndTime" name="EndTime">
+                            <input type="time" class="form-control" id="EndTime" name="EndTime" value="" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputAddress">Free Text / Notes / Comments</label>
                         <input type="text" class="form-control" id="inputAddress" name="inputAddress"
-                            placeholder="Type you comments here...">
+                            placeholder="Type you comments here..."
+                            value="<?php echo  $Eq[0][0]['AdditionalReason']; ?>">
                     </div>
 
-                    <input type="hidden" name="EquipmentType" value="<?php echo $_GET['EquipmentType']; ?>">
-                    <input type="hidden" name="Equipment" value="<?php echo $_GET['Equipment']; ?>">
-                    <input type="hidden" name="Component" value="<?php echo $_GET['Component']; ?>">
-                    <input type="hidden" name="Failure" value="<?php echo $_GET['Failure']; ?>">
-                    <input type="hidden" name="Discipline" value="<?php echo $_GET['Discipline']; ?>">
                     <div class="row my-3">
                         <div class="col-6">
                             <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="document.location.href='index.php'">Restart</button>
+                                onclick="document.location.href='index.php'">Cancel</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-outline-success btn-lg form-control">Save</button>

@@ -168,15 +168,11 @@ die;
                 <form method="POST">
 
                     <div class="form-row">
-                        <div class="form-group col-md-2">
-                            <label for="ShiftNr">Shift Nr</label>
-                            <input type="number" class="form-control" id="ShiftNr" name="ShiftNr" required>
-                        </div>
                         <div class="form-group col-md-3">
                             <label for="StartDate">Start Date</label>
                             <input type="date" class="form-control" id="StartDate" name="StartDate" required>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <label for="StartTime">Start Time</label>
                             <input type="time" class="form-control" id="StartTime" name="StartTime" required>
                         </div>
@@ -184,7 +180,7 @@ die;
                             <label for="EndDate">End Date</label>
                             <input type="date" class="form-control" id="EndDate" name="EndDate">
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <label for="EndTime">End Time</label>
                             <input type="time" class="form-control" id="EndTime" name="EndTime">
                         </div>
