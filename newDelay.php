@@ -1,3 +1,26 @@
+<?php
+if (isset($_POST['Delay'])){
+$EquipmentType = $_POST['EquipmentType'];
+$Equipment =  $_POST['Equipment'];
+$BreakdownDesc =  $_POST['BreakdownDesc'];
+
+$StartDate =  $_POST['StartDate'];
+$StartTime =  $_POST['StartTime'];
+$uid = $_SERVER['AUTH_USER'];
+
+$sql = "INSERT INTO tDelaysActuals 
+            (CalendarDateStart, EquipmentTypeId ,EquipmentId ,StartTime ,BreakdownHours ,Tons ,BreakdownDescription ,UserId)
+            VALUES('$StartDate', '$EquipmentType', '$Equipment', '$StartTime', '0', '0','$BreakdownDesc','$uid');";
+
+$sqlargs = array();
+require_once 'config/db_query.php'; 
+$Eq =  sqlQuery($sql,$sqlargs);
+
+echo "<script> document.location.href='index.php' </script>";
+die;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -101,21 +124,16 @@
                     <div class="form-group">
                         <label for="BreakdownDesc">Breakdown Description (Free Text)</label>
                         <input type="text" class="form-control" id="BreakdownDesc" name="BreakdownDesc"
-                            placeholder="Type you comments here...">
+                            placeholder="Type you comments here..." required>
                     </div>
 
-                    <input type="hidden" name="EquipmentType" value="<?php echo $_GET['EquipmentType']; ?>">
-                    <input type="hidden" name="Equipment" value="<?php echo $_GET['Equipment']; ?>">
-                    <input type="hidden" name="Component" value="<?php echo $_GET['Component']; ?>">
-                    <input type="hidden" name="Failure" value="<?php echo $_GET['Failure']; ?>">
-                    <input type="hidden" name="Discipline" value="<?php echo $_GET['Discipline']; ?>">
                     <div class="row my-3">
                         <div class="col-6">
                             <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="document.location.href='index.php'">Restart</button>
+                                onclick="document.location.href='index.php'">Cancel</button>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-outline-success btn-lg form-control">Save</button>
+                            <button class="btn btn-outline-success btn-lg form-control" name="Delay">Save</button>
                         </div>
                     </div>
                 </form>

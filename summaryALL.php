@@ -49,7 +49,7 @@
                 from [tDelaysActuals]
                 inner join tDelaysEquipmentType on tDelaysEquipmentType.EquipmentTypeID = tDelaysActuals.EquipmentTypeID
                 inner join tDelaysEquipment on tDelaysEquipment.EquipmentID = tDelaysActuals.EquipmentID
-                where EndTime is NULL;";
+                where EndTime is NOT NULL;";
         $sqlargs = array();
         require_once 'config/db_query.php'; 
         $Delays =  sqlQuery($sql,$sqlargs);
@@ -65,20 +65,24 @@
                 <!-- Filters -->
                 <div>
                     <b>Toggle column:</b>
-                    <a class="toggle-vis" data-column="1">EquipmentType</a> |
-                    <a class="toggle-vis" data-column="2">Equipment</a> |
-                    <a class="toggle-vis" data-column="3">Start</a> |
-                    <a class="toggle-vis" data-column="4">Comment</a>
+                    <a class="toggle-vis" data-column="1">Start</a> |
+                    <a class="toggle-vis" data-column="2">End</a> |
+                    <a class="toggle-vis" data-column="3">Type</a> |
+                    <a class="toggle-vis" data-column="4">Equipment</a> |
+                    <a class="toggle-vis" data-column="5">Desc</a>
+                    <a class="toggle-vis" data-column="6">Work</a>
                 </div>
                 <!-- Table Start -->
                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Edit</th>
+                            <th>#ID</th>
+                            <th>Start</th>
+                            <th>End</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
-                            <th>Start</th>
                             <th>Desc</th>
+                            <th>Work</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,28 +90,28 @@
                     $i = 0;
                     foreach ($Delays[0] as $Rec) {
                     ?>
-                        <form action="edit.php" method="POST">
-                            <tr>
-                                <td> <a class="btn btn-primary btn-block btn-xs"
-                                        href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
-                                </td>
-                                <td><?php echo $Rec['EquipmentType']; ?></td>
-                                <td><?php echo $Rec['EquipmentDescription']; ?></td>
-                                <td><?php echo $Rec['StartTime']; ?></td>
-                                <td><?php echo $Rec['BreakdownDescription']; ?></td>
-                            </tr>
-                        </form>
+                        <tr>
+                            <td><?php echo $Rec['DelayId'] ?></td>
+                            <td><?php echo $Rec['StartTime'] ." ".substr($Rec['CalendarDateStart'],0,10); ?></td>
+                            <td><?php echo $Rec['EndTime'] ." ".substr($Rec['CalendarDateEnd'],0,10); ?></td>
+                            <td><?php echo $Rec['EquipmentType']; ?></td>
+                            <td><?php echo $Rec['EquipmentDescription']; ?></td>
+                            <td><?php echo $Rec['BreakdownDescription']; ?></td>
+                            <td><?php echo $Rec['WorkPerformed']; ?></td>
+                        </tr>
                         <?php
                         }
                         ?>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th></th>
+                            <th>#ID</th>
+                            <th>Start</th>
+                            <th>End</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
-                            <th>Start</th>
                             <th>Desc</th>
+                            <th>Work</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -115,10 +119,7 @@
             </div>
         </div>
         <button class="btn btn-outline-primary btn-lg form-control"
-            onclick="document.location.href='index.php'">Home</button><br><br>
-        <button class="btn btn-outline-info btn-lg form-control" onclick="document.location.href='summaryAll.php'">See
-            All
-            Delays</button>
+            onclick="document.location.href='index.php'">Home</button>
         <!-- Form Summary -->
         <br><br>
         <!-- Main Content Start-->
