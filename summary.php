@@ -123,7 +123,12 @@
                                 <td><?php echo $Rec['DisciplineDescription']; ?></td>
                                 <td><?php echo $Rec['FailureDescription']; ?></td>
                                 <td><?php echo $Rec['StartTime']; ?></td>
-                                <td><?php echo $Rec['CalendarDateEnd']; ?></td>
+                                <td><?php 
+                                        if ( substr($Rec['CalendarDateEnd'],0,10) !== '1900-01-01'){
+                                            echo substr($Rec['CalendarDateEnd'],0,10); 
+                                        }
+                                
+                                ?></td>
                                 <td><?php echo $Rec['EndTime']; ?></td>
                                 <td><?php echo $Rec['BreakdownHours']; ?></td>
                                 <td><?php echo $Rec['AdditionalReason']; ?></td>
