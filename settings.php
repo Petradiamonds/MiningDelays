@@ -1,46 +1,3 @@
-<?php
-if (isset($_POST['Delay'])){
-$ID = $_POST['Delay'];
-$EquipmentType = $_POST['EquipmentType'];
-$Equipment =  $_POST['Equipment'];
-$Component =  $_POST['Component'];
-$Failure =  $_POST['Failure'];
-$WorkPerformed =  $_POST['WorkPerformed'];
-$ComponentDiscipline=  $_POST['ComponentDiscipline'];
-$BreakdownDesc=  $_POST['BreakdownDesc'];
-$StartDate =  $_POST['CalendarDateStart'];
-$EndDate =  $_POST['EndDate'];
-$StartTime =  $_POST['StartTime'];
-$EndTime =  $_POST['EndTime'];
-$uid = $_SERVER['AUTH_USER'];
-
-$sql = "UPDATE tDelaysActuals SET
-            CalendarDateStart = '$StartDate',
-            EquipmentTypeId = '$EquipmentType',
-            EquipmentId = '$Equipment',
-            ComponentId = '$Component',
-            DisciplineId = '$ComponentDiscipline',
-            FailureId = '$Failure',
-            StartTime = '$StartTime',
-            EndTime = '$EndTime',
-            CalendarDateEnd = '$EndDate',
-            BreakdownHours = '0',
-            Tons = '0',
-            WorkPerformed = '$WorkPerformed',
-            BreakdownDescription = '$BreakdownDesc',
-            UserId = '$uid'
-        WHERE DelayId = $ID;
-        ";
-
-$sqlargs = array();
-require_once 'config/db_query.php'; 
-$Eq =  sqlQuery($sql,$sqlargs);
-
-echo "<script> document.location.href='index.php' </script>";
-die;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,14 +34,6 @@ die;
         <!-- NAV END -->
 
         <!-- Main Content Start-->
-        <?php
-        //SQL Connect Equipment
-        $sql = 'select [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
-                WHERE DelayId = 1;';
-        $sqlargs = array();
-        require_once 'config/db_query.php'; 
-        $Eq =  sqlQuery($sql,$sqlargs);
-        ?>
         <br>
         <?php require_once("_setting_eqt.php");?>
         <br>
