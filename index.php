@@ -22,7 +22,7 @@
 
 <body class="bg-primary">
     <!-- Page Start -->
-    <div class="container bg-white rounded">
+    <div class="pt-5 container bg-white rounded">
 
         <!-- NAV START -->
         <nav class="navbar navbar-dark bg-dark rounded">
@@ -49,8 +49,6 @@
                     New Delay</button>
                 <button class="btn btn-outline-primary btn-lg my-2"
                     onclick="document.location.href='Summary.php'">Update Delay</button>
-                <button class="btn btn-outline-primary btn-lg my-2"
-                    onclick="document.location.href='Settings.php'">Maintenance Delay</button>
             </div>
         </section>
 

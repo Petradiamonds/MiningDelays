@@ -23,7 +23,7 @@
 
 <body class="bg-primary">
     <!-- Page Start -->
-    <div class="container bg-white">
+    <div class="pt-5 container bg-white rounded">
 
         <!-- NAV START -->
         <nav class="navbar navbar-dark bg-dark rounded">
