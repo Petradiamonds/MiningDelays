@@ -2,6 +2,8 @@
 vendor/
 #exclude Test folder
 test/
+#exclude config with passwords
+db.php
 
 ## IDE support
 .vscode/
