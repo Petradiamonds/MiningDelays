@@ -38,8 +38,8 @@
             <div class="row bg-white">
                 <div class="col-12 bg-white text-center">
                     <div class="bg-dark p-1 my-1 rounded" style="margin: auto;">
-                        <img src="https://www.miningmagazine.com/w-images/ee4cdc55-b02f-4928-81f6-cd3fb719091e/3/CM20190329ad17a16541-1680x600.jpg"
-                            class="img-fluid rounded" style="max-height: 200px;" alt="Header">
+                        <img src="img/Header-1680x600.jpg" class="img-fluid rounded" style="max-height: 200px;"
+                            alt="Header">
                     </div>
                 </div>
             </div>
