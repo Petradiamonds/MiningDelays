@@ -22,7 +22,7 @@
 
 ### Requirements
  - [!["PHP 7.2"](https://img.shields.io/badge/PHP-7.2%5E-blue.svg)](https://www.php.net/)(php7.2-xml, php7.2-mbstring, php7.2-zip)
-[!["JavaScript"](https://img.shields.io/badge/JavaScript-1.8%5E-blue.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+ - [!["JavaScript"](https://img.shields.io/badge/JavaScript-1.8%5E-blue.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [!["MSSQL 2016"](https://img.shields.io/badge/MSSQL-2016%5E-blue.svg)](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 [!["HTML 5"](https://img.shields.io/badge/HTML-5-blue.svg)](https://html5test.com/results/desktop.html)
 [!["PHPMailer"](https://img.shields.io/badge/PHPMailer-6.0%5E-blue.svg)](https://github.com/PHPMailer/PHPMailer)
