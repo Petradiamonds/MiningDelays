@@ -67,6 +67,7 @@
                     <b>Toggle column:</b>
                     <a class="toggle-vis" data-column="1">Start</a> |
                     <a class="toggle-vis" data-column="2">End</a> |
+                    <a class="toggle-vis" data-column="3">Duration</a> |
                     <a class="toggle-vis" data-column="3">Type</a> |
                     <a class="toggle-vis" data-column="4">Equipment</a> |
                     <a class="toggle-vis" data-column="5">Desc</a>
@@ -79,6 +80,7 @@
                             <th>#ID</th>
                             <th>Start</th>
                             <th>End</th>
+                            <th>Duration</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
                             <th>Desc</th>
@@ -94,6 +96,7 @@
                             <td><?php echo $Rec['DelayId'] ?></td>
                             <td><?php echo $Rec['StartTime'] ." ".substr($Rec['CalendarDateStart'],0,10); ?></td>
                             <td><?php echo $Rec['EndTime'] ." ".substr($Rec['CalendarDateEnd'],0,10); ?></td>
+                            <td><?php echo $Rec['BreakdownHours']; ?></td>
                             <td><?php echo $Rec['EquipmentType']; ?></td>
                             <td><?php echo $Rec['EquipmentDescription']; ?></td>
                             <td><?php echo $Rec['BreakdownDescription']; ?></td>
@@ -108,6 +111,7 @@
                             <th>#ID</th>
                             <th>Start</th>
                             <th>End</th>
+                            <th>Duration</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
                             <th>Desc</th>

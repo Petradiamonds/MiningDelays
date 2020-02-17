@@ -49,7 +49,8 @@
                 from [tDelaysActuals]
                 inner join tDelaysEquipmentType on tDelaysEquipmentType.EquipmentTypeID = tDelaysActuals.EquipmentTypeID
                 inner join tDelaysEquipment on tDelaysEquipment.EquipmentID = tDelaysActuals.EquipmentID
-                where EndTime is NULL;";
+                where EndTime is NULL
+                ORDER BY CalendarDateStart DESC;";
         $sqlargs = array();
         require_once 'config/db_query.php'; 
         $Delays =  sqlQuery($sql,$sqlargs);
@@ -65,9 +66,9 @@
                 <!-- Filters -->
                 <div>
                     <b>Toggle column:</b>
-                    <a class="toggle-vis" data-column="1">EquipmentType</a> |
-                    <a class="toggle-vis" data-column="2">Equipment</a> |
-                    <a class="toggle-vis" data-column="3">Start</a> |
+                    <a class="toggle-vis" data-column="1">Start</a> |
+                    <a class="toggle-vis" data-column="2">EquipmentType</a> |
+                    <a class="toggle-vis" data-column="3">Equipment</a> |
                     <a class="toggle-vis" data-column="4">Comment</a>
                 </div>
                 <!-- Table Start -->
@@ -75,9 +76,9 @@
                     <thead>
                         <tr>
                             <th>Edit</th>
+                            <th>Start</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
-                            <th>Start</th>
                             <th>Desc</th>
                         </tr>
                     </thead>
@@ -91,9 +92,10 @@
                                 <td> <a class="btn btn-primary btn-block btn-xs"
                                         href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
                                 </td>
+                                <td><?php echo substr($Rec['CalendarDateStart'],0,10).' '.$Rec['StartTime']; ?>
+                                </td>
                                 <td><?php echo $Rec['EquipmentType']; ?></td>
                                 <td><?php echo $Rec['EquipmentDescription']; ?></td>
-                                <td><?php echo $Rec['StartTime']; ?></td>
                                 <td><?php echo $Rec['BreakdownDescription']; ?></td>
                             </tr>
                         </form>
@@ -104,9 +106,9 @@
                     <tfoot>
                         <tr>
                             <th></th>
+                            <th>Start</th>
                             <th>EquipmentType</th>
                             <th>Equipment</th>
-                            <th>Start</th>
                             <th>Desc</th>
                         </tr>
                     </tfoot>
@@ -138,7 +140,10 @@
     <script>
     $(document).ready(function() {
         var table = $('#example').DataTable({
-            "scrollX": true
+            "scrollX": true,
+            "order": [
+                [0, "desc"]
+            ]
         });
 
         $('a.toggle-vis').on('click', function(e) {

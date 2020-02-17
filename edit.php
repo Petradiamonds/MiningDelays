@@ -87,7 +87,8 @@ die;
 
         //SQL Component
         $sql = 'select * from [PDP].[dbo].[tDelaysComponent]
-                WHERE  active = -1 and EquipmentTypeID = :ID;';
+                WHERE  active = -1 and EquipmentTypeID = :ID
+                ORDER BY ComponentDescription ASC;';
         $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID'] );
         require_once 'config/db_query.php'; 
         $Com =  sqlQuery($sql,$sqlargs);
