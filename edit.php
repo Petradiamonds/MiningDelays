@@ -14,6 +14,21 @@ $StartTime =  $_POST['StartTime'];
 $EndTime =  $_POST['EndTime'];
 $uid = $_SERVER['AUTH_USER'];
 
+$StartDate = substr($StartDate,0,10);
+$EndDate = substr($EndDate,0,10);
+
+$sDay = strtotime("$StartDate $StartTime");
+$eDay = strtotime("$EndDate $EndTime");
+
+$diff = abs($sDay-$eDay);
+$hr = ($diff / 60 / 60);
+$min = explode(".",$hr);
+
+$hr = $min[0];
+$min = round(("0.$min[1]")*60);
+$br_hours = $hr.'h '.$min.'m';
+
+
 $sql = "UPDATE tDelaysActuals SET
             CalendarDateStart = '$StartDate',
             EquipmentTypeId = '$EquipmentType',
@@ -24,7 +39,7 @@ $sql = "UPDATE tDelaysActuals SET
             StartTime = '$StartTime',
             EndTime = '$EndTime',
             CalendarDateEnd = '$EndDate',
-            BreakdownHours = '0',
+            BreakdownHours = '$br_hours',
             Tons = '0',
             WorkPerformed = '$WorkPerformed',
             BreakdownDescription = '$BreakdownDesc',
