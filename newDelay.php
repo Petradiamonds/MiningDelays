@@ -60,10 +60,10 @@ die;
         <?php
         
         //Equipment Type
-        $sql = 'select EquipmentTypeId ,EquipmentType
+        $sql = "SELECT EquipmentTypeId ,(OpType+':'+EquipmentType)as EquipmentType
                 from [PDP].[dbo].[vDelaysAllLinks]
-                group by EquipmentTypeId ,EquipmentType
-                order by EquipmentType asc;';
+                group by EquipmentTypeId ,EquipmentType,OpType
+                order by EquipmentType asc;";
         $sqlargs = array();
         require_once 'config/db_query.php'; 
         $Eqt =  sqlQuery($sql,$sqlargs);
@@ -148,7 +148,7 @@ die;
     <!-- Page End -->
 
     <!-- Start of Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- end of Bootstrap JS -->

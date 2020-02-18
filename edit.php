@@ -86,7 +86,7 @@ die;
         $Eq =  sqlQuery($sql,$sqlargs);
 
         //SQL Component
-        $sql = 'select * from [PDP].[dbo].[tDelaysComponent]
+        $sql = 'select * from [PDP].[dbo].[vEquipTypeComp_Link]
                 WHERE  active = -1 and EquipmentTypeID = :ID
                 ORDER BY ComponentDescription ASC;';
         $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID'] );
@@ -121,8 +121,8 @@ die;
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="EquipmentType">Equipment Type</label>
-                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentTypeDescription'] ?>"
-                            class="form-control" readonly>
+                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentType'] ?>" class="form-control"
+                            readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Equipment">Equipment</label>
@@ -230,7 +230,7 @@ die;
     <!-- Page End -->
 
     <!-- Start of Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- end of Bootstrap JS -->
