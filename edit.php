@@ -26,7 +26,8 @@ $min = explode(".",$hr);
 
 $hr = $min[0];
 $min = round(("0.$min[1]")*60);
-$br_hours = $hr.'h '.$min.'m';
+$min = str_pad($min, 2, '0', STR_PAD_LEFT);
+$br_hours = $hr.':'.$min;
 
 
 $sql = "UPDATE tDelaysActuals SET
