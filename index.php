@@ -38,8 +38,7 @@
             <div class="row bg-white">
                 <div class="col-12 bg-white text-center">
                     <div class="bg-dark p-1 my-1 rounded" style="margin: auto;">
-                        <img src="img/Header-1680x600.jpg" class="img-fluid rounded" style="max-height: 200px;"
-                            alt="Header">
+                        <img src="img/Logo.jpg" class="img-fluid rounded" style="max-height: 200px;" alt="Header">
                     </div>
                 </div>
             </div>

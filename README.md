@@ -1,5 +1,5 @@
 # GroundHandling Delays
-<img src="https://github.com/HermanRas/MiningDelays/blob/master/img/Logo.jpg" alt="#PetraLogo">
+<img src="https://github.com/HermanRas/MiningDelays/blob/GroundHandling/img/Logo.jpg" alt="#PetraLogo">
 
 ## Issues Tracking
 ### Issues Tracking: Total Logged !
@@ -48,7 +48,8 @@
 - DONE 2020-02-17 added breakdown hours to view all page
 - DONE 2020-02-18 formated Breakdown hours to 00h 00m format
 - DONE 2020-02-18 Patched Support for Operational Delays Added to Database
-- Test Branch
+- DONE 2020-03-06 New Branch Ground Handling
+- DONE 2020-03-06 Re branded Branch
 
 ## To-Do Induction
 - Update usernames with access to maintenance tables
