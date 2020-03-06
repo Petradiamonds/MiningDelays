@@ -60,8 +60,9 @@ die;
         <?php
         
         //Equipment Type
-        $sql = "SELECT EquipmentTypeId ,(OpType+':'+EquipmentType)as EquipmentType
+        $sql = "SELECT EquipmentTypeId ,EquipmentType
                 from [PDP].[dbo].[vDelaysAllLinks]
+                WHERE OpType = 'TMM'
                 group by EquipmentTypeId ,EquipmentType,OpType
                 order by EquipmentType asc;";
         $sqlargs = array();
