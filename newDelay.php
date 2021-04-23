@@ -28,7 +28,7 @@ die;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mining Delays</title>
+    <title>Plant Delays</title>
 
     <!-- Chrome/android APP settings -->
     <meta name="theme-color" content="#4287f5">
@@ -51,7 +51,7 @@ die;
         <nav class="navbar navbar-dark bg-dark rounded">
             <a class="navbar-brand" href="index.php">
                 <img src="img/icon.png" width="30" height="30" class="d-inline-block align-top bg-white rounded" alt="">
-                Mining Delays
+                Plant Delays
             </a>
         </nav>
         <!-- NAV END -->
