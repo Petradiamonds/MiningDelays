@@ -1,5 +1,5 @@
 # Mining Delays
-<img src="https://github.com/HermanRas/MiningDelays/blob/master/img/Logo.jpg" alt="#PetraLogo">
+<img src="https://github.com/HermanRas/MiningDelays/blob/CDM-TMMDelays/img/Logo.jpg" alt="#PetraLogo">
 
 ## Issues Tracking
 ### Issues Tracking: Total Logged !
