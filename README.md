@@ -1,4 +1,4 @@
-# Mining Delays
+# Plant Delays
 <img src="https://github.com/HermanRas/MiningDelays/blob/CDM-TMMDelays/img/Logo.jpg" alt="#PetraLogo">
 
 ## Issues Tracking
