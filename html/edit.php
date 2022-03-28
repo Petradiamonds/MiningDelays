@@ -1,0 +1,312 @@
+<?php
+if (isset($_POST['Delay'])){
+$ID = $_POST['Delay'];
+$EquipmentType = $_POST['EquipmentType'];
+$Equipment =  $_POST['Equipment'];
+$Component =  $_POST['Component'];
+$Failure =  $_POST['Failure'];
+$WorkPerformed =  $_POST['WorkPerformed'];
+$ComponentDiscipline=  $_POST['ComponentDiscipline'];
+$BreakdownDesc=  $_POST['BreakdownDesc'];
+$StartDate =  $_POST['CalendarDateStart'];
+$EndDate =  $_POST['EndDate'];
+$StartTime =  $_POST['StartTime'];
+$EndTime =  $_POST['EndTime'];
+$uid = $_SERVER['AUTH_USER'];
+
+$StartDate = substr($StartDate,0,10);
+$EndDate = substr($EndDate,0,10);
+
+$sDay = strtotime("$StartDate $StartTime");
+$eDay = strtotime("$EndDate $EndTime");
+
+$diff = abs($sDay-$eDay);
+$hr = ($diff / 60 / 60);
+$min = explode(".",$hr);
+
+$hr = $min[0];
+$min = round(("0.$min[1]")*60);
+$min = str_pad($min, 2, '0', STR_PAD_LEFT);
+$br_hours = $hr.':'.$min;
+
+
+$sql = "UPDATE tDelaysActuals SET
+            CalendarDateStart = '$StartDate',
+            EquipmentTypeId = '$EquipmentType',
+            EquipmentId = '$Equipment',
+            ComponentId = '$Component',
+            DisciplineId = '$ComponentDiscipline',
+            FailureId = '$Failure',
+            StartTime = '$StartTime',
+            EndTime = '$EndTime',
+            CalendarDateEnd = '$EndDate',
+            BreakdownHours = '$br_hours',
+            Tons = '0',
+            WorkPerformed = '$WorkPerformed',
+            BreakdownDescription = '$BreakdownDesc',
+            UserId = '$uid'
+        WHERE DelayId = $ID;
+        ";
+
+$sqlargs = array();
+require_once 'config/db_query.php'; 
+$Eq =  sqlQuery($sql,$sqlargs);
+
+echo "<script> document.location.href='index.php' </script>";
+die;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ground Handling Delays</title>
+
+    <!-- Chrome/android APP settings -->
+    <meta name="theme-color" content="#4287f5">
+    <link rel="icon" href="img/icon.png" sizes="192x192">
+    <!-- end of Chrome/Android App Settings  -->
+
+    <!-- Bootstrap // you can use hosted CDN here-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <!-- end of bootstrap -->
+
+</head>
+
+<body class="bg-primary">
+    <!-- Page Start -->
+    <div class="pt-5 container bg-white rounded">
+
+        <!-- NAV START -->
+        <nav class="navbar navbar-dark bg-dark rounded">
+            <a class="navbar-brand" href="index.php">
+                <img src="img/icon.png" width="30" height="30" class="d-inline-block align-top bg-white rounded" alt="">
+                Ground Handling Delays
+            </a>
+        </nav>
+        <!-- NAV END -->
+
+        <!-- Main Content Start-->
+        <?php
+        //SQL Connect Equipment
+        $sql = 'select [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
+                WHERE DelayId = :ID;';
+        $sqlargs = array('ID' => $_GET['DelayId']);
+        require_once 'config/db_query.php'; 
+        $Eq =  sqlQuery($sql,$sqlargs);
+
+        //SQL Component
+        $sql = 'select * from [PDP].[dbo].[vEquipTypeComp_Link]
+                WHERE  active = -1 and EquipmentTypeID = :ID
+                ORDER BY ComponentDescription ASC;';
+        $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID'] );
+        require_once 'config/db_query.php'; 
+        $Com =  sqlQuery($sql,$sqlargs);
+
+        //SQL Discipline
+        $sql = 'select tDelaysDiscipline.*, tDelaysComponentDisciplineLink.EquipmentTypeId,tDelaysComponentDisciplineLink.ComponentId  from [PDP].[dbo].[tDelaysDiscipline]
+                Inner Join [PDP].[dbo].[tDelaysComponentDisciplineLink] on [tDelaysComponentDisciplineLink].DisciplineId =  [tDelaysDiscipline].DisciplineId
+                WHERE  active = -1    and EquipmentTypeID = :ID;';
+        $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID'] );
+        require_once 'config/db_query.php'; 
+        $Des =  sqlQuery($sql,$sqlargs);
+        echo "<script> let Discipline = [" . json_encode($Des[0]) . "];</script>";
+
+        //SQL Failure
+        $sql = 'select[tDelaysFailure].*,tDelaysDisciplineFailureLink.* from [PDP].[dbo].[tDelaysFailure]
+        INNER JOIN [PDP].[dbo].[tDelaysDisciplineFailureLink] on [tDelaysDisciplineFailureLink].FailureId = [tDelaysFailure].FailureId
+        WHERE  active = -1;';
+        $sqlargs = array();
+        require_once 'config/db_query.php'; 
+        $Fail =  sqlQuery($sql,$sqlargs);
+        echo "<script> let Failure = [" . json_encode($Fail[0]) . "];</script>";
+        ?>
+
+        <!-- Form Summary -->
+        <div class="card my-3">
+            <div class="card-header bg-dark text-white">
+                Selection Summary Delay
+            </div>
+            <div class="card-body bg-light">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="EquipmentType">Equipment Type</label>
+                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentType'] ?>" class="form-control"
+                            readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="Equipment">Equipment</label>
+                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentDescription'] ?>" class="form-control"
+                            id="Equipment" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="StartDate">Start Date</label>
+                        <input type="date" class="form-control" id="StartDate"
+                            value="<?php echo substr($Eq[0][0]['CalendarDateStart'],0,10); ?>" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="StartTime">Start Time</label>
+                        <input type="time" class="form-control" id="StartTime" name="StartTime"
+                            value="<?php echo ($Eq[0][0]['StartTime']) ?>" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form Summart -->
+
+        <!-- form start-->
+        <div class="card">
+            <div class="card-header bg-success">
+                Save Delay
+            </div>
+            <div class="card-body">
+                <form method="POST">
+
+                    <input type="hidden" name="Delay" value="<?php echo  $Eq[0][0]['DelayId']; ?>">
+                    <input type="hidden" name="EquipmentType" id="EquipmentType"
+                        value="<?php echo  $Eq[0][0]['EquipmentTypeID']; ?>">
+                    <input type="hidden" name="Equipment" value="<?php echo  $Eq[0][0]['EquipmentId']; ?>">
+                    <input type="hidden" name="CalendarDateStart"
+                        value="<?php echo  $Eq[0][0]['CalendarDateStart']; ?>">
+                    <input type="hidden" name="StartTime" value="<?php echo  $Eq[0][0]['StartTime']; ?>">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="BreakdownDesc">Breakdown Description</label>
+                            <input type="text" value="<?php echo $Eq[0][0]['BreakdownDescription'] ?>"
+                                class="form-control" id="BreakdownDesc" name="BreakdownDesc" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="Component">Component</label>
+                            <select type="text" class="form-control" id="Component" name="Component"
+                                onchange="filterDiscipline(this)" required>
+                                <option value="">Select Component </option>
+                                <?php
+                                foreach ($Com[0] as $ComRec) {
+                                    echo '<option value="'.$ComRec['ComponentId'].'">'.$ComRec['ComponentDescription'].'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ComponentDiscipline">Discipline</label>
+                            <select type="text" class="form-control" id="ComponentDiscipline" name="ComponentDiscipline"
+                                onchange="filterFailure(this)" required>
+                                <option value="">Select Discipline </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="Failure">Failure</label>
+                            <select type="text" class="form-control" id="Failure" Name="Failure" required>
+                                <option value="">Select Failure </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="EndDate">End Date</label>
+                            <input type="date" class="form-control" id="EndDate" name="EndDate" value="" required>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="EndTime">End Time</label>
+                            <input type="time" class="form-control" id="EndTime" name="EndTime" value="" required>
+                        </div>
+                        <div class="form-group col-md-7">
+                            <label for="WorkPerformed">Work Performed</label>
+                            <input type="text" class="form-control" id="WorkPerformed" name="WorkPerformed"
+                                placeholder="Type you work performed here...">
+                        </div>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="col-6">
+                            <button class="btn btn-outline-danger btn-lg form-control"
+                                onclick="document.location.href='index.php'">Cancel</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-success btn-lg form-control">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- form end -->
+        <br><br>
+        <!-- Main Content Start-->
+
+    </div>
+    <!-- Page End -->
+
+    <!-- Start of Bootstrap JS -->
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- end of Bootstrap JS -->
+
+    <!-- Page Level Scripts -->
+    <script>
+    //Discipline
+    function filterDiscipline(ComID) {
+        var select = document.getElementById("Failure");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
+        var opt = document.createElement("option");
+        opt.value = "";
+        opt.text = "Select Failure ";
+        select.add(opt, null);
+
+        var select = document.getElementById("ComponentDiscipline");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
+        var opt = document.createElement("option");
+        opt.value = "";
+        opt.text = "Select Discipline ";
+        select.add(opt, null);
+
+        EquipmentType = document.getElementById("EquipmentType");
+        Discipline[0].forEach(element => {
+            if (element.EquipmentTypeId == EquipmentType.value && element.ComponentId == ComID.value) {
+                opt = document.createElement("option");
+                opt.value = element.DisciplineId;
+                opt.text = element.DisciplineDescription;
+                select.add(opt, null);
+            };
+        });
+    }
+
+    function filterFailure(DisID) {
+        var select = document.getElementById("Failure");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
+        var opt = document.createElement("option");
+        opt.value = "";
+        opt.text = "Select Failure ";
+        select.add(opt, null);
+
+        Failure[0].forEach(element => {
+            if (element.DisciplineId == DisID.value) {
+                opt = document.createElement("option");
+                opt.value = element.FailureId;
+                opt.text = element.FailureDescription;
+                select.add(opt, null);
+            };
+        });
+    }
+    </script>
+</body>
+
+</html>
