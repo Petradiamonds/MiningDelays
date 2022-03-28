@@ -46,8 +46,9 @@
 - DONE 2020-02-17 added Start date to summary page and added default sort by start date DESC
 - DONE 2020-02-17 added breakdown hours to view all page
 - DONE 2020-02-17 added breakdown hours to view all page
-- Done 2020-02-18 formated Breakdown hours to 00h 00m format
+- DONE 2020-02-18 formatted Breakdown hours to 00h 00m format
 - DONE 2020-02-18 Patched Support for Operational Delays Added to Database
+- DONE 2020-03-06 Removed ground handling from Mining Delays
 
 ## To-Do Induction
 - Update usernames with access to maintenance tables

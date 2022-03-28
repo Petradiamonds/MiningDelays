@@ -2,7 +2,7 @@
 if (isset($_POST['Discipline'])){
 
 }else{
-//SQL Connect Discipline
+//SQL Connect Discipline.
 $sql = 'select top 1000 [PDP].[dbo].[tDelaysDiscipline].* from [PDP].[dbo].[tDelaysDiscipline]';
 $sqlargs = array();
 require_once 'config/db_query.php'; 

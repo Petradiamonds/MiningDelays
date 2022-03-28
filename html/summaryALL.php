@@ -45,11 +45,14 @@
         #SQL Connect
         $sql = "select tDelaysActuals.*,
                 tDelaysEquipmentType.EquipmentType,
+                tDelaysEquipmentType.OPType,
                 tDelaysEquipment.EquipmentDescription
                 from [tDelaysActuals]
                 inner join tDelaysEquipmentType on tDelaysEquipmentType.EquipmentTypeID = tDelaysActuals.EquipmentTypeID
                 inner join tDelaysEquipment on tDelaysEquipment.EquipmentID = tDelaysActuals.EquipmentID
-                where EndTime is NOT NULL;";
+                where EndTime is NOT NULL
+                AND OPType = 'TMM'
+                ORDER BY CalendarDateStart DESC;";
         $sqlargs = array();
         require_once 'config/db_query.php'; 
         $Delays =  sqlQuery($sql,$sqlargs);
