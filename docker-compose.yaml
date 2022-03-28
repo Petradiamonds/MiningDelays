@@ -21,6 +21,7 @@ services:
     container_name: app-server
     ports:
       - "8080:80"
+      - "8443:443"
     volumes:
       - "./html/:/var/www/html/"
     depends_on:

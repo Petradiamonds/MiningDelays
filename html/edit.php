@@ -3,42 +3,45 @@
 $datestring = new DateTime();
 
 if (isset($_POST['Delay'])){
-$ID = $_POST['Delay'];
-$EquipmentType = $_POST['EquipmentType'];
-$Equipment =  $_POST['Equipment'];
-$Component =  $_POST['Component'];
-$Failure =  $_POST['Failure'];
-$WorkPerformed =  $_POST['WorkPerformed'];
-$ComponentDiscipline=  $_POST['ComponentDiscipline'];
-$BreakdownDesc=  $_POST['BreakdownDesc'];
-$DamageDetail=  $_POST['DamageDetail'];
-$ArtisanAssigned=  $_POST['ArtisanAssigned'];
-$REQNumber=  $_POST['REQNumber'];
-$ProgressReport=  $_POST['ProgressReportOLD']."\r\n".$datestring->format('Y-m-d H:i:s').' - '.$_POST['ProgressReport'] ;
-$StartDate =  $_POST['CalendarDateStart'];
-$EndDate =  $_POST['EndDate'];
+    $ID = $_POST['Delay'];
+    $EquipmentType = $_POST['EquipmentType'];
+    $Equipment =  $_POST['Equipment'];
+    $Component =  $_POST['Component'];
+    $Failure =  $_POST['Failure'];
+    $WorkPerformed =  $_POST['WorkPerformed'];
+    $ComponentDiscipline=  $_POST['ComponentDiscipline'];
+    $BreakdownDesc=  $_POST['BreakdownDesc'];
+    $DamageDetail=  $_POST['DamageDetail'];
+    $ArtisanAssigned=  $_POST['ArtisanAssigned'];
+    $REQNumber=  $_POST['REQNumber'];
+    $ProgressReport=  $_POST['ProgressReportOLD']."\r\n".$datestring->format('Y-m-d H:i:s').' - '.$_POST['ProgressReport'] ;
+    $StartDate =  $_POST['CalendarDateStart'];
+    $EndDate =  $_POST['EndDate'];
+    
+    if (isset($_POST['EndDate'])){
 
-echo $EndDate;
+    echo $EndDate;
 
-$StartTime =  $_POST['StartTime'];
-$EndTime =  $_POST['EndTime'];
-$uid = $_SERVER['AUTH_USER'];
+    $StartTime =  $_POST['StartTime'];
+    $EndTime =  $_POST['EndTime'];
+    $uid = $_SERVER['AUTH_USER'];
 
-$StartDate = substr($StartDate,0,10);
-$EndDate = substr($EndDate,0,10);
+    $StartDate = substr($StartDate,0,10);
+    $EndDate = substr($EndDate,0,10);
 
-$sDay = strtotime("$StartDate $StartTime");
-$eDay = strtotime("$EndDate $EndTime");
+    $sDay = strtotime("$StartDate $StartTime");
+    $eDay = strtotime("$EndDate $EndTime");
 
-$diff = abs($sDay-$eDay);
-$hr = ($diff / 60 / 60);
-$min = explode(".",$hr);
+    $diff = abs($sDay-$eDay);
+    $hr = ($diff / 60 / 60);
+    $min = explode(".",$hr);
 
-$hr = $min[0];
-$min = round(("0.$min[1]")*60);
-$min = str_pad($min, 2, '0', STR_PAD_LEFT);
-$br_hours = $hr.':'.$min;
+    $hr = $min[0];
+    $min = round(("0.$min[1]")*60);
+    $min = str_pad($min, 2, '0', STR_PAD_LEFT);
+    $br_hours = $hr.':'.$min;
 
+    }
 
 $sql = "UPDATE tDelaysActuals SET
             CalendarDateStart = '$StartDate',
