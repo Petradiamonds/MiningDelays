@@ -312,7 +312,7 @@ die;
                             <button class="btn btn-outline-success btn-lg form-control">Update</button>
                         </div>
                     </div>
-                </form>
+                
                 </div>
         </div>
         <!-- form end -->
@@ -323,15 +323,15 @@ die;
                 Close Delay
             </div>
             <div class="card-body">
-                <form method="POST">
+                
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="EndDate">End Date</label>
-                            <input type="date" class="form-control" id="EndDate" name="EndDate" value="" required>
+                            <input type="date" class="form-control" id="EndDate" name="EndDate" value="">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="EndTime">End Time</label>
-                            <input type="time" class="form-control" id="EndTime" name="EndTime" value="" required>
+                            <input type="time" class="form-control" id="EndTime" name="EndTime" value="">
                         </div>
                         <div class="form-group col-md-7">
                             <label for="WorkPerformed">Work Performed</label>
