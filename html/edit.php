@@ -1,4 +1,7 @@
 <?php
+
+$datestring = new DateTime();
+
 if (isset($_POST['Delay'])){
 $ID = $_POST['Delay'];
 $EquipmentType = $_POST['EquipmentType'];
@@ -8,8 +11,15 @@ $Failure =  $_POST['Failure'];
 $WorkPerformed =  $_POST['WorkPerformed'];
 $ComponentDiscipline=  $_POST['ComponentDiscipline'];
 $BreakdownDesc=  $_POST['BreakdownDesc'];
+$DamageDetail=  $_POST['DamageDetail'];
+$ArtisanAssigned=  $_POST['ArtisanAssigned'];
+$REQNumber=  $_POST['REQNumber'];
+$ProgressReport=  $_POST['ProgressReportOLD']."\r\n".$datestring->format('Y-m-d H:i:s').' - '.$_POST['ProgressReport'] ;
 $StartDate =  $_POST['CalendarDateStart'];
 $EndDate =  $_POST['EndDate'];
+
+echo $EndDate;
+
 $StartTime =  $_POST['StartTime'];
 $EndTime =  $_POST['EndTime'];
 $uid = $_SERVER['AUTH_USER'];
@@ -37,6 +47,10 @@ $sql = "UPDATE tDelaysActuals SET
             ComponentId = '$Component',
             DisciplineId = '$ComponentDiscipline',
             FailureId = '$Failure',
+            DamageDetail = '$DamageDetail',  
+            ArtisanAssigned = '$ArtisanAssigned', 
+            REQNumber = '$REQNumber', 
+            ProgressReport = '$ProgressReport',
             StartTime = '$StartTime',
             EndTime = '$EndTime',
             CalendarDateEnd = '$EndDate',
@@ -163,7 +177,7 @@ die;
         <!-- form start-->
         <div class="card">
             <div class="card-header bg-success">
-                Save Delay
+                Continuous Update of Delay
             </div>
             <div class="card-body">
                 <form method="POST">
@@ -183,15 +197,24 @@ die;
                                 class="form-control" id="BreakdownDesc" name="BreakdownDesc" required>
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="Component">Component</label>
                             <select type="text" class="form-control" id="Component" name="Component"
                                 onchange="filterDiscipline(this)" required>
-                                <option value="">Select Component </option>
-                                <?php
-                                foreach ($Com[0] as $ComRec) {
-                                    echo '<option value="'.$ComRec['ComponentId'].'">'.$ComRec['ComponentDescription'].'</option>';
+                                <?php 
+                                if ($Eq[0][0]['ComponentId'] === ''){
+                                    echo '<option value="">Select Component </option>';
+                                }else{
+                                    foreach ($Com[0] as $ComRec) {
+                                        if ($ComRec['ComponentId'] === $Eq[0][0]['ComponentId']){
+                                            echo '<option value="'.$ComRec['ComponentId'].'" selected>'.$ComRec['ComponentDescription'].'</option>';
+                                        }else{
+                                            echo '<option value="'.$ComRec['ComponentId'].'">'.$ComRec['ComponentDescription'].'</option>';
+                                        }
+                                        
+                                    }
                                 }
                                 ?>
                             </select>
@@ -201,15 +224,103 @@ die;
                             <select type="text" class="form-control" id="ComponentDiscipline" name="ComponentDiscipline"
                                 onchange="filterFailure(this)" required>
                                 <option value="">Select Discipline </option>
+                                <?php echo '<script>let DisciplineOpt="'.$Eq[0][0]['DisciplineId'].'"</script>';?>
                             </select>
+                            <script>
+                                var select = document.getElementById("ComponentDiscipline");
+                                var length = select.options.length;
+                                    for (i = length - 1; i >= 0; i--) {
+                                        select.options[i] = null;
+                                    }
+                                 for (const Obb of Discipline[0]){
+                                     if (Obb.DisciplineId == DisciplineOpt){
+                                        var DisciplineDescription = Obb.DisciplineDescription;
+                                        var DisciplineId = Obb.DisciplineId;
+                                     }
+                                 }
+
+                                 var opt = document.createElement("option");
+                                 opt.value = DisciplineId;
+                                 opt.text = DisciplineDescription;
+                                 select.add(opt, null);
+                            </script>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="Failure">Failure</label>
                             <select type="text" class="form-control" id="Failure" Name="Failure" required>
                                 <option value="">Select Failure </option>
+                                <?php echo '<script>let FailureOpt="'.$Eq[0][0]['FailureId'].'"</script>';?>
                             </select>
+                            <script>
+                                var select = document.getElementById("Failure");
+                                var length = select.options.length;
+                                    for (i = length - 1; i >= 0; i--) {
+                                        select.options[i] = null;
+                                    }
+                                 for (const Obb of Failure[0]){
+                                     if (Obb.FailureId == FailureOpt){
+                                        var FailureDescription = Obb.FailureDescription;
+                                        var FailureId = Obb.FailureId;
+                                     }
+                                 }
+
+                                 var opt = document.createElement("option");
+                                 opt.value = FailureId;
+                                 opt.text = FailureDescription;
+                                 select.add(opt, null);
+                            </script>
                         </div>
                     </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="DamageDetail">Damage Detail</label>
+                            <input type="text" value="<?php echo $Eq[0][0]['DamageDetail'] ?>" class="form-control" name="DamageDetail"  placeholder="Damage details in full..">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ArtisanAssigned">Artisan assisgned</label>
+                            <input type="text" value="<?php echo $Eq[0][0]['ArtisanAssigned'] ?>" class="form-control" name="ArtisanAssigned" placeholder="Artisan name">
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="REQNumber">REQNumber</label>
+                            <input type="text" value="<?php echo $Eq[0][0]['REQNumber'] ?>" class="form-control" name="REQNumber" placeholder="REQ number with delivery date">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="ProgressReport">Progress Update</label>
+                            <input type="hidden" value="<?php echo $Eq[0][0]['ProgressReport'] ?>" name="ProgressReportOLD">
+                            <input type="text" value="" class="form-control" id="ProgressReport" name="ProgressReport" placeholder="Add update here" required>
+                            <hr>
+                            <label for="ProgressReport">Progress Report</label>
+                            <textarea class="form-control" cols="30" rows="10" readonly>
+                            <?php echo $Eq[0][0]['ProgressReport'] ?>
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="col-6">
+                            <button class="btn btn-outline-danger btn-lg form-control"
+                                onclick="document.location.href='index.php'">Cancel</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-success btn-lg form-control">Update</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+        </div>
+        <!-- form end -->
+        <br><br>
+        <!-- form start-->
+        <div class="card">
+            <div class="card-header bg-info">
+                Close Delay
+            </div>
+            <div class="card-body">
+                <form method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="EndDate">End Date</label>
@@ -232,7 +343,7 @@ die;
                                 onclick="document.location.href='index.php'">Cancel</button>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-outline-success btn-lg form-control">Save</button>
+                            <button class="btn btn-outline-success btn-lg form-control">Close</button>
                         </div>
                     </div>
                 </form>

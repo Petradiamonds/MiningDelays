@@ -50,7 +50,7 @@
                 from [tDelaysActuals]
                 inner join tDelaysEquipmentType on tDelaysEquipmentType.EquipmentTypeID = tDelaysActuals.EquipmentTypeID
                 inner join tDelaysEquipment on tDelaysEquipment.EquipmentID = tDelaysActuals.EquipmentID
-                where EndTime is NULL
+                where (EndTime is NULL OR EndTime = '' )
                 AND OPType = 'TMM'
                 ORDER BY CalendarDateStart DESC;";
         $sqlargs = array();
