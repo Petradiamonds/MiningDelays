@@ -62,7 +62,7 @@ die;
         //Equipment Type
         $sql = "SELECT EquipmentTypeId ,EquipmentType
                 from [PDP].[dbo].[vDelaysAllLinks]
-                WHERE OpType = 'TMM'
+                WHERE OpType = 'EQP'
                 group by EquipmentTypeId ,EquipmentType,OpType
                 order by EquipmentType asc;";
         $sqlargs = array();

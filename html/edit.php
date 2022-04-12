@@ -12,6 +12,7 @@ if (isset($_POST['Delay'])){
     $ComponentDiscipline=  $_POST['ComponentDiscipline'];
     $BreakdownDesc=  $_POST['BreakdownDesc'];
     $DamageDetail=  $_POST['DamageDetail'];
+    $TagId=  $_POST['TagId'];
     $ArtisanAssigned=  $_POST['ArtisanAssigned'];
     $REQNumber=  $_POST['REQNumber'];
     $ProgressReport=  $_POST['ProgressReportOLD']."\r\n".$datestring->format('Y-m-d H:i:s').' - '.$_POST['ProgressReport'] ;
@@ -51,6 +52,7 @@ $sql = "UPDATE tDelaysActuals SET
             DisciplineId = '$ComponentDiscipline',
             FailureId = '$Failure',
             DamageDetail = '$DamageDetail',  
+            TagId = '$TagId',
             ArtisanAssigned = '$ArtisanAssigned', 
             REQNumber = '$REQNumber', 
             ProgressReport = '$ProgressReport',
@@ -276,9 +278,37 @@ die;
                     </div>
                     
                     <div class="form-row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-10">
                             <label for="DamageDetail">Damage Detail</label>
                             <input type="text" value="<?php echo $Eq[0][0]['DamageDetail'] ?>" class="form-control" name="DamageDetail"  placeholder="Damage details in full..">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="DamageDetail">Tag Number</label>
+                            <?php
+                            //SQL Tag
+                            $sql = 'select * from [PDP].[dbo].[vEquipEquiptypeTag_Link]
+                                    WHERE  active = -1 and EquipmentTypeID = :ETID AND EquipmentId = :ID
+                                    ORDER BY TagNumber ASC;';
+                            $sqlargs = array('ETID' => $Eq[0][0]['EquipmentTypeID'], 'ID' => $Eq[0][0]['EquipmentId']  );
+                            require_once 'config/db_query.php'; 
+                            $Tag =  sqlQuery($sql,$sqlargs);
+                            ?>
+                            <select type="text" class="form-control" id="TagId" name="TagId">
+                                <?php 
+                                if ($Eq[0][0]['TagId'] === ''){
+                                    echo '<option value="">Select Tag Number </option>';
+                                }else{
+                                    foreach ($Tag[0] as $TagRec) {
+                                        if ($TagRec['TagId'] === $Eq[0][0]['TagId']){
+                                            echo '<option value="'.$TagRec['TagId'].'" selected>'.$TagRec['Tagnumber'].'</option>';
+                                        }else{
+                                            echo '<option value="'.$TagRec['TagId'].'">'.$TagRec['Tagnumber'].'</option>';
+                                        }
+                                        
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="ArtisanAssigned">Artisan assisgned</label>
