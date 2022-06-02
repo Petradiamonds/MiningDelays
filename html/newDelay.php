@@ -3,14 +3,15 @@ if (isset($_POST['Delay'])){
 $EquipmentType = $_POST['EquipmentType'];
 $Equipment =  $_POST['Equipment'];
 $BreakdownDesc =  $_POST['BreakdownDesc'];
+$TagID = $_POST['TagId'];
 
 $StartDate =  $_POST['StartDate'];
 $StartTime =  $_POST['StartTime'];
 $uid = $_SERVER['AUTH_USER'];
 
 $sql = "INSERT INTO tDelaysActuals 
-            (CalendarDateStart, EquipmentTypeId ,EquipmentId ,StartTime ,BreakdownHours ,Tons ,BreakdownDescription ,UserId)
-            VALUES('$StartDate', '$EquipmentType', '$Equipment', '$StartTime', '0', '0','$BreakdownDesc','$uid');";
+            (CalendarDateStart, EquipmentTypeId ,EquipmentId ,StartTime ,BreakdownHours ,Tons ,BreakdownDescription ,UserId, TagId)
+            VALUES('$StartDate', '$EquipmentType', '$Equipment', '$StartTime', '0', '0','$BreakdownDesc','$uid','$TagID');";
 
 $sqlargs = array();
 require_once 'config/db_query.php'; 
@@ -83,6 +84,21 @@ die;
             echo json_encode($Eq[0]);
         echo    "];
             </script>";
+
+        //SQL Tags 
+        $sql = 'select * from [PDP].[dbo].[vEquipEquiptypeTag_Link]
+                WHERE  active = -1
+                ORDER BY TagNumber ASC;';
+        $sqlargs = array();
+        require_once 'config/db_query.php'; 
+        $Tag =  sqlQuery($sql,$sqlargs);
+        
+        echo "<script>
+            let Tags = [";
+            echo json_encode($Tag[0]);
+        echo    "];
+            </script>";
+
 ?>
 
         <!-- form start-->
@@ -104,8 +120,7 @@ die;
                         </div>
                         <div class="form-group col-md-3">
                             <label for="EquipmentType">Equipment Type</label>
-                            <select type="text" class="form-control" id="EquipmentType" name="EquipmentType"
-                                onchange="filterEquipment(this)" required>
+                            <select type="text" class="form-control" id="EquipmentType" name="EquipmentType" onchange="filterEquipment(this)" required>
                                 <option value="">Select Equipment Type </option>
                                 <?php
                                 foreach ($Eqt[0] as $EqtRec) {
@@ -116,16 +131,24 @@ die;
                         </div>
                         <div class="form-group col-md-3">
                             <label for="Equipment">Equipment</label>
-                            <select type="text" class="form-control" id="Equipment" name="Equipment" required>
+                            <select type="text" class="form-control" id="Equipment" name="Equipment" onchange="filterTagID(this)" required>
                                 <option value="">Select Equipment </option>
-
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="BreakdownDesc">Breakdown Description (Free Text)</label>
-                        <input type="text" class="form-control" id="BreakdownDesc" name="BreakdownDesc"
-                            placeholder="Type you comments here..." required>
+
+                    <div class="row my-3">
+                        <div class="form-group col-md-3">
+                            <label for="DamageDetail">Tag Number</label>
+                            <select type="text" class="form-control" id="TagID" name="TagID" required>
+                                <option value="">Select Tag</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <label for="BreakdownDesc">Breakdown Description (Free Text)</label>
+                            <input type="text" class="form-control" id="BreakdownDesc" name="BreakdownDesc"
+                                placeholder="Type you comments here..." required>
+                        </div>
                     </div>
 
                     <div class="row my-3">
@@ -157,6 +180,16 @@ die;
     <!-- Page Specific JS -->
     <script>
     function filterEquipment(eqtId) {
+        var select = document.getElementById("TagID");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
+        var opt = document.createElement("option");
+        opt.value = "";
+        opt.text = "Select Tag";
+        select.add(opt, null);
+
         var select = document.getElementById("Equipment");
         var length = select.options.length;
         for (i = length - 1; i >= 0; i--) {
@@ -164,7 +197,7 @@ die;
         }
         var opt = document.createElement("option");
         opt.value = "";
-        opt.text = "Select Equipment ";
+        opt.text = "Select Equipment";
         select.add(opt, null);
 
         Equipment[0].forEach(element => {
@@ -172,6 +205,32 @@ die;
                 opt = document.createElement("option");
                 opt.value = element.EquipmentId;
                 opt.text = element.EquipmentDescription;
+                select.add(opt, null);
+            };
+        });
+    }
+    
+    
+    function filterTagID(Equipment) {
+        var select = document.getElementById("TagID");
+        var EquipmentType = document.getElementById("EquipmentType");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
+        var opt = document.createElement("option");
+        opt.value = "";
+        opt.text = "Select Tag";
+        select.add(opt, null);
+
+        Tags[0].forEach(element => {
+            if (
+                (element.EquipmentId == Equipment.value) &&
+                (element.EquipmentTypeId == EquipmentType.value)
+                ) {
+                opt = document.createElement("option");
+                opt.value = element.TagId;
+                opt.text = element.Tagnumber;
                 select.add(opt, null);
             };
         });
