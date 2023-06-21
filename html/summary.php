@@ -37,8 +37,8 @@
         <!-- Main Content Start-->
         <?php
         $SelectDate = date('Y-m-d');
-        
-        if(isset($_GET['SelectDate'])){
+
+        if (isset($_GET['SelectDate'])) {
             $SelectDate = $_GET['SelectDate'];
         }
 
@@ -54,8 +54,8 @@
                 AND OPType = 'TMM'
                 ORDER BY CalendarDateStart DESC;";
         $sqlargs = array();
-        require_once 'config/db_query.php'; 
-        $Delays =  sqlQuery($sql,$sqlargs);
+        require_once 'config/db_query.php';
+        $Delays =  sqlQuery($sql, $sqlargs);
         ?>
 
 
@@ -86,21 +86,20 @@
                     </thead>
                     <tbody>
                         <?php
-                    $i = 0;
-                    foreach ($Delays[0] as $Rec) {
-                    ?>
-                        <form action="edit.php" method="POST">
-                            <tr>
-                                <td> <a class="btn btn-primary btn-block btn-xs"
-                                        href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
-                                </td>
-                                <td><?php echo substr($Rec['CalendarDateStart'],0,10).' '.$Rec['StartTime']; ?>
-                                </td>
-                                <td><?php echo $Rec['EquipmentType']; ?></td>
-                                <td><?php echo $Rec['EquipmentDescription']; ?></td>
-                                <td><?php echo $Rec['BreakdownDescription']; ?></td>
-                            </tr>
-                        </form>
+                        $i = 0;
+                        foreach ($Delays[0] as $Rec) {
+                        ?>
+                            <form action="edit.php" method="POST">
+                                <tr>
+                                    <td> <a class="btn btn-primary btn-block btn-xs" href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
+                                    </td>
+                                    <td><?php echo substr($Rec['CalendarDateStart'], 0, 10) . ' ' . $Rec['StartTime']; ?>
+                                    </td>
+                                    <td><?php echo $Rec['EquipmentType']; ?></td>
+                                    <td><?php echo $Rec['EquipmentDescription']; ?></td>
+                                    <td><?php echo $Rec['BreakdownDescription']; ?></td>
+                                </tr>
+                            </form>
                         <?php
                         }
                         ?>
@@ -118,8 +117,7 @@
                 <!-- Table End -->
             </div>
         </div>
-        <button class="btn btn-outline-primary btn-lg form-control"
-            onclick="document.location.href='index.php'">Home</button><br><br>
+        <button class="btn btn-outline-primary btn-lg form-control" onclick="document.location.href='index.php'">Home</button><br><br>
         <button class="btn btn-outline-info btn-lg form-control" onclick="document.location.href='summaryAll.php'">See
             All
             Delays</button>
@@ -131,7 +129,7 @@
     <!-- Page End -->
 
     <!-- Start of Bootstrap JS -->
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/jquery-3.5.0.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.dataTables.min.js"></script>
@@ -140,24 +138,24 @@
 
     <!-- Page Level JS -->
     <script>
-    $(document).ready(function() {
-        var table = $('#example').DataTable({
-            "scrollX": true,
-            "order": [
-                [0, "desc"]
-            ]
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                "scrollX": true,
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+
+            $('a.toggle-vis').on('click', function(e) {
+                e.preventDefault();
+
+                // Get the column API object
+                var column = table.column($(this).attr('data-column'));
+
+                // Toggle the visibility
+                column.visible(!column.visible());
+            });
         });
-
-        $('a.toggle-vis').on('click', function(e) {
-            e.preventDefault();
-
-            // Get the column API object
-            var column = table.column($(this).attr('data-column'));
-
-            // Toggle the visibility
-            column.visible(!column.visible());
-        });
-    });
     </script>
 
 </body>
