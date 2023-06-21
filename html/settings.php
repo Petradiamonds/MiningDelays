@@ -35,21 +35,20 @@
 
         <!-- Main Content Start-->
         <br>
-        <?php require_once("_setting_eqt.php");?>
+        <?php require_once("_setting_eqt.php"); ?>
         <br>
-        <?php require_once("_setting_eq.php");?>
+        <?php require_once("_setting_eq.php"); ?>
         <br>
-        <?php require_once("_setting_com.php");?>
+        <?php require_once("_setting_com.php"); ?>
         <br>
-        <?php require_once("_setting_dis.php");?>
+        <?php require_once("_setting_dis.php"); ?>
         <br>
-        <?php require_once("_setting_fail.php");?>
+        <?php require_once("_setting_fail.php"); ?>
         <br>
 
         <div class="row my-3">
             <div class="col-12">
-                <button class="btn btn-outline-primary btn-lg form-control"
-                    onclick="document.location.href='index.php'">Home</button>
+                <button class="btn btn-outline-primary btn-lg form-control" onclick="document.location.href='index.php'">Home</button>
             </div>
         </div>
         <br><br>
@@ -59,7 +58,7 @@
     <!-- Page End -->
 
     <!-- Start of Bootstrap JS -->
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/jquery-3.5.0.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- end of Bootstrap JS -->

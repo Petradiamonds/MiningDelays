@@ -1,23 +1,23 @@
 <?php
-if (isset($_POST['Delay'])){
-$EquipmentType = $_POST['EquipmentType'];
-$Equipment =  $_POST['Equipment'];
-$BreakdownDesc =  $_POST['BreakdownDesc'];
+if (isset($_POST['Delay'])) {
+    $EquipmentType = $_POST['EquipmentType'];
+    $Equipment =  $_POST['Equipment'];
+    $BreakdownDesc =  $_POST['BreakdownDesc'];
 
-$StartDate =  $_POST['StartDate'];
-$StartTime =  $_POST['StartTime'];
-$uid = $_SERVER['AUTH_USER'];
+    $StartDate =  $_POST['StartDate'];
+    $StartTime =  $_POST['StartTime'];
+    $uid = $_SERVER['AUTH_USER'];
 
-$sql = "INSERT INTO tDelaysActuals 
+    $sql = "INSERT INTO tDelaysActuals 
             (CalendarDateStart, EquipmentTypeId ,EquipmentId ,StartTime ,BreakdownHours ,Tons ,BreakdownDescription ,UserId)
             VALUES('$StartDate', '$EquipmentType', '$Equipment', '$StartTime', '0', '0','$BreakdownDesc','$uid');";
 
-$sqlargs = array();
-require_once 'config/db_query.php'; 
-$Eq =  sqlQuery($sql,$sqlargs);
+    $sqlargs = array();
+    require_once 'config/db_query.php';
+    $Eq =  sqlQuery($sql, $sqlargs);
 
-echo "<script> document.location.href='index.php' </script>";
-die;
+    echo "<script> document.location.href='index.php' </script>";
+    die;
 }
 ?>
 
@@ -58,7 +58,7 @@ die;
 
         <!-- Main Content Start-->
         <?php
-        
+
         //Equipment Type
         $sql = "SELECT EquipmentTypeId ,EquipmentType
                 from [PDP].[dbo].[vDelaysAllLinks]
@@ -66,24 +66,24 @@ die;
                 group by EquipmentTypeId ,EquipmentType,OpType
                 order by EquipmentType asc;";
         $sqlargs = array();
-        require_once 'config/db_query.php'; 
-        $Eqt =  sqlQuery($sql,$sqlargs);
-        
+        require_once 'config/db_query.php';
+        $Eqt =  sqlQuery($sql, $sqlargs);
+
         //SQL Equipment
         $sql = 'select EquipmentId ,EquipmentDescription ,EquipmentTypeId ,EquipmentType
                 from [PDP].[dbo].[vDelaysAllLinks]
                 group by EquipmentId ,EquipmentDescription ,EquipmentTypeId ,EquipmentType
                 Order By EquipmentDescription ASC;';
         $sqlargs = array();
-        require_once 'config/db_query.php'; 
-        $Eq =  sqlQuery($sql,$sqlargs);
+        require_once 'config/db_query.php';
+        $Eq =  sqlQuery($sql, $sqlargs);
 
         echo "<script>
             let Equipment = [";
-            echo json_encode($Eq[0]);
+        echo json_encode($Eq[0]);
         echo    "];
             </script>";
-?>
+        ?>
 
         <!-- form start-->
         <div class="card">
@@ -104,12 +104,11 @@ die;
                         </div>
                         <div class="form-group col-md-3">
                             <label for="EquipmentType">Equipment Type</label>
-                            <select type="text" class="form-control" id="EquipmentType" name="EquipmentType"
-                                onchange="filterEquipment(this)" required>
+                            <select type="text" class="form-control" id="EquipmentType" name="EquipmentType" onchange="filterEquipment(this)" required>
                                 <option value="">Select Equipment Type </option>
                                 <?php
                                 foreach ($Eqt[0] as $EqtRec) {
-                                    echo '<option value="'.$EqtRec['EquipmentTypeId'].'">'.$EqtRec['EquipmentType'].'</option>';
+                                    echo '<option value="' . $EqtRec['EquipmentTypeId'] . '">' . $EqtRec['EquipmentType'] . '</option>';
                                 }
                                 ?>
                             </select>
@@ -124,14 +123,12 @@ die;
                     </div>
                     <div class="form-group">
                         <label for="BreakdownDesc">Breakdown Description (Free Text)</label>
-                        <input type="text" class="form-control" id="BreakdownDesc" name="BreakdownDesc"
-                            placeholder="Type you comments here..." required>
+                        <input type="text" class="form-control" id="BreakdownDesc" name="BreakdownDesc" placeholder="Type you comments here..." required>
                     </div>
 
                     <div class="row my-3">
                         <div class="col-6">
-                            <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="document.location.href='index.php'">Cancel</button>
+                            <button class="btn btn-outline-danger btn-lg form-control" onclick="document.location.href='index.php'">Cancel</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-outline-success btn-lg form-control" name="Delay">Save</button>
@@ -149,33 +146,33 @@ die;
     <!-- Page End -->
 
     <!-- Start of Bootstrap JS -->
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/jquery-3.5.0.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- end of Bootstrap JS -->
 
     <!-- Page Specific JS -->
     <script>
-    function filterEquipment(eqtId) {
-        var select = document.getElementById("Equipment");
-        var length = select.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            select.options[i] = null;
-        }
-        var opt = document.createElement("option");
-        opt.value = "";
-        opt.text = "Select Equipment ";
-        select.add(opt, null);
+        function filterEquipment(eqtId) {
+            var select = document.getElementById("Equipment");
+            var length = select.options.length;
+            for (i = length - 1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+            var opt = document.createElement("option");
+            opt.value = "";
+            opt.text = "Select Equipment ";
+            select.add(opt, null);
 
-        Equipment[0].forEach(element => {
-            if (element.EquipmentTypeId == eqtId.value) {
-                opt = document.createElement("option");
-                opt.value = element.EquipmentId;
-                opt.text = element.EquipmentDescription;
-                select.add(opt, null);
-            };
-        });
-    }
+            Equipment[0].forEach(element => {
+                if (element.EquipmentTypeId == eqtId.value) {
+                    opt = document.createElement("option");
+                    opt.value = element.EquipmentId;
+                    opt.text = element.EquipmentDescription;
+                    select.add(opt, null);
+                };
+            });
+        }
     </script>
 </body>
 

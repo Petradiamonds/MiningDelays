@@ -1,36 +1,36 @@
 <?php
-if (isset($_POST['Delay'])){
-$ID = $_POST['Delay'];
-$EquipmentType = $_POST['EquipmentType'];
-$Equipment =  $_POST['Equipment'];
-$Component =  $_POST['Component'];
-$Failure =  $_POST['Failure'];
-$WorkPerformed =  $_POST['WorkPerformed'];
-$ComponentDiscipline=  $_POST['ComponentDiscipline'];
-$BreakdownDesc=  $_POST['BreakdownDesc'];
-$StartDate =  $_POST['CalendarDateStart'];
-$EndDate =  $_POST['EndDate'];
-$StartTime =  $_POST['StartTime'];
-$EndTime =  $_POST['EndTime'];
-$uid = $_SERVER['AUTH_USER'];
+if (isset($_POST['Delay'])) {
+    $ID = $_POST['Delay'];
+    $EquipmentType = $_POST['EquipmentType'];
+    $Equipment =  $_POST['Equipment'];
+    $Component =  $_POST['Component'];
+    $Failure =  $_POST['Failure'];
+    $WorkPerformed =  $_POST['WorkPerformed'];
+    $ComponentDiscipline =  $_POST['ComponentDiscipline'];
+    $BreakdownDesc =  $_POST['BreakdownDesc'];
+    $StartDate =  $_POST['CalendarDateStart'];
+    $EndDate =  $_POST['EndDate'];
+    $StartTime =  $_POST['StartTime'];
+    $EndTime =  $_POST['EndTime'];
+    $uid = $_SERVER['AUTH_USER'];
 
-$StartDate = substr($StartDate,0,10);
-$EndDate = substr($EndDate,0,10);
+    $StartDate = substr($StartDate, 0, 10);
+    $EndDate = substr($EndDate, 0, 10);
 
-$sDay = strtotime("$StartDate $StartTime");
-$eDay = strtotime("$EndDate $EndTime");
+    $sDay = strtotime("$StartDate $StartTime");
+    $eDay = strtotime("$EndDate $EndTime");
 
-$diff = abs($sDay-$eDay);
-$hr = ($diff / 60 / 60);
-$min = explode(".",$hr);
+    $diff = abs($sDay - $eDay);
+    $hr = ($diff / 60 / 60);
+    $min = explode(".", $hr);
 
-$hr = $min[0];
-$min = round(("0.$min[1]")*60);
-$min = str_pad($min, 2, '0', STR_PAD_LEFT);
-$br_hours = $hr.':'.$min;
+    $hr = $min[0];
+    $min = round(("0.$min[1]") * 60);
+    $min = str_pad($min, 2, '0', STR_PAD_LEFT);
+    $br_hours = $hr . ':' . $min;
 
 
-$sql = "UPDATE tDelaysActuals SET
+    $sql = "UPDATE tDelaysActuals SET
             CalendarDateStart = '$StartDate',
             EquipmentTypeId = '$EquipmentType',
             EquipmentId = '$Equipment',
@@ -48,12 +48,12 @@ $sql = "UPDATE tDelaysActuals SET
         WHERE DelayId = $ID;
         ";
 
-$sqlargs = array();
-require_once 'config/db_query.php'; 
-$Eq =  sqlQuery($sql,$sqlargs);
+    $sqlargs = array();
+    require_once 'config/db_query.php';
+    $Eq =  sqlQuery($sql, $sqlargs);
 
-echo "<script> document.location.href='index.php' </script>";
-die;
+    echo "<script> document.location.href='index.php' </script>";
+    die;
 }
 ?>
 
@@ -98,24 +98,24 @@ die;
         $sql = 'select [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
                 WHERE DelayId = :ID;';
         $sqlargs = array('ID' => $_GET['DelayId']);
-        require_once 'config/db_query.php'; 
-        $Eq =  sqlQuery($sql,$sqlargs);
+        require_once 'config/db_query.php';
+        $Eq =  sqlQuery($sql, $sqlargs);
 
         //SQL Component
         $sql = 'select * from [PDP].[dbo].[vEquipTypeComp_Link]
                 WHERE  active = -1 and EquipmentTypeID = :ID
                 ORDER BY ComponentDescription ASC;';
-        $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID'] );
-        require_once 'config/db_query.php'; 
-        $Com =  sqlQuery($sql,$sqlargs);
+        $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID']);
+        require_once 'config/db_query.php';
+        $Com =  sqlQuery($sql, $sqlargs);
 
         //SQL Discipline
         $sql = 'select tDelaysDiscipline.*, tDelaysComponentDisciplineLink.EquipmentTypeId,tDelaysComponentDisciplineLink.ComponentId  from [PDP].[dbo].[tDelaysDiscipline]
                 Inner Join [PDP].[dbo].[tDelaysComponentDisciplineLink] on [tDelaysComponentDisciplineLink].DisciplineId =  [tDelaysDiscipline].DisciplineId
                 WHERE  active = -1    and EquipmentTypeID = :ID;';
-        $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID'] );
-        require_once 'config/db_query.php'; 
-        $Des =  sqlQuery($sql,$sqlargs);
+        $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID']);
+        require_once 'config/db_query.php';
+        $Des =  sqlQuery($sql, $sqlargs);
         echo "<script> let Discipline = [" . json_encode($Des[0]) . "];</script>";
 
         //SQL Failure
@@ -123,8 +123,8 @@ die;
         INNER JOIN [PDP].[dbo].[tDelaysDisciplineFailureLink] on [tDelaysDisciplineFailureLink].FailureId = [tDelaysFailure].FailureId
         WHERE  active = -1;';
         $sqlargs = array();
-        require_once 'config/db_query.php'; 
-        $Fail =  sqlQuery($sql,$sqlargs);
+        require_once 'config/db_query.php';
+        $Fail =  sqlQuery($sql, $sqlargs);
         echo "<script> let Failure = [" . json_encode($Fail[0]) . "];</script>";
         ?>
 
@@ -137,23 +137,19 @@ die;
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="EquipmentType">Equipment Type</label>
-                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentType'] ?>" class="form-control"
-                            readonly>
+                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentType'] ?>" class="form-control" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Equipment">Equipment</label>
-                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentDescription'] ?>" class="form-control"
-                            id="Equipment" readonly>
+                        <input type="text" value="<?php echo $Eq[0][0]['EquipmentDescription'] ?>" class="form-control" id="Equipment" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="StartDate">Start Date</label>
-                        <input type="date" class="form-control" id="StartDate"
-                            value="<?php echo substr($Eq[0][0]['CalendarDateStart'],0,10); ?>" readonly>
+                        <input type="date" class="form-control" id="StartDate" value="<?php echo substr($Eq[0][0]['CalendarDateStart'], 0, 10); ?>" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="StartTime">Start Time</label>
-                        <input type="time" class="form-control" id="StartTime" name="StartTime"
-                            value="<?php echo ($Eq[0][0]['StartTime']) ?>" readonly>
+                        <input type="time" class="form-control" id="StartTime" name="StartTime" value="<?php echo ($Eq[0][0]['StartTime']) ?>" readonly>
                     </div>
                 </div>
             </div>
@@ -169,37 +165,32 @@ die;
                 <form method="POST">
 
                     <input type="hidden" name="Delay" value="<?php echo  $Eq[0][0]['DelayId']; ?>">
-                    <input type="hidden" name="EquipmentType" id="EquipmentType"
-                        value="<?php echo  $Eq[0][0]['EquipmentTypeID']; ?>">
+                    <input type="hidden" name="EquipmentType" id="EquipmentType" value="<?php echo  $Eq[0][0]['EquipmentTypeID']; ?>">
                     <input type="hidden" name="Equipment" value="<?php echo  $Eq[0][0]['EquipmentId']; ?>">
-                    <input type="hidden" name="CalendarDateStart"
-                        value="<?php echo  $Eq[0][0]['CalendarDateStart']; ?>">
+                    <input type="hidden" name="CalendarDateStart" value="<?php echo  $Eq[0][0]['CalendarDateStart']; ?>">
                     <input type="hidden" name="StartTime" value="<?php echo  $Eq[0][0]['StartTime']; ?>">
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="BreakdownDesc">Breakdown Description</label>
-                            <input type="text" value="<?php echo $Eq[0][0]['BreakdownDescription'] ?>"
-                                class="form-control" id="BreakdownDesc" name="BreakdownDesc" required>
+                            <input type="text" value="<?php echo $Eq[0][0]['BreakdownDescription'] ?>" class="form-control" id="BreakdownDesc" name="BreakdownDesc" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="Component">Component</label>
-                            <select type="text" class="form-control" id="Component" name="Component"
-                                onchange="filterDiscipline(this)" required>
+                            <select type="text" class="form-control" id="Component" name="Component" onchange="filterDiscipline(this)" required>
                                 <option value="">Select Component </option>
                                 <?php
                                 foreach ($Com[0] as $ComRec) {
-                                    echo '<option value="'.$ComRec['ComponentId'].'">'.$ComRec['ComponentDescription'].'</option>';
+                                    echo '<option value="' . $ComRec['ComponentId'] . '">' . $ComRec['ComponentDescription'] . '</option>';
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="ComponentDiscipline">Discipline</label>
-                            <select type="text" class="form-control" id="ComponentDiscipline" name="ComponentDiscipline"
-                                onchange="filterFailure(this)" required>
+                            <select type="text" class="form-control" id="ComponentDiscipline" name="ComponentDiscipline" onchange="filterFailure(this)" required>
                                 <option value="">Select Discipline </option>
                             </select>
                         </div>
@@ -221,15 +212,13 @@ die;
                         </div>
                         <div class="form-group col-md-7">
                             <label for="WorkPerformed">Work Performed</label>
-                            <input type="text" class="form-control" id="WorkPerformed" name="WorkPerformed"
-                                placeholder="Type you work performed here...">
+                            <input type="text" class="form-control" id="WorkPerformed" name="WorkPerformed" placeholder="Type you work performed here...">
                         </div>
                     </div>
 
                     <div class="row my-3">
                         <div class="col-6">
-                            <button class="btn btn-outline-danger btn-lg form-control"
-                                onclick="document.location.href='index.php'">Cancel</button>
+                            <button class="btn btn-outline-danger btn-lg form-control" onclick="document.location.href='index.php'">Cancel</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-outline-success btn-lg form-control">Save</button>
@@ -246,66 +235,66 @@ die;
     <!-- Page End -->
 
     <!-- Start of Bootstrap JS -->
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/jquery-3.5.0.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- end of Bootstrap JS -->
 
     <!-- Page Level Scripts -->
     <script>
-    //Discipline
-    function filterDiscipline(ComID) {
-        var select = document.getElementById("Failure");
-        var length = select.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            select.options[i] = null;
+        //Discipline
+        function filterDiscipline(ComID) {
+            var select = document.getElementById("Failure");
+            var length = select.options.length;
+            for (i = length - 1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+            var opt = document.createElement("option");
+            opt.value = "";
+            opt.text = "Select Failure ";
+            select.add(opt, null);
+
+            var select = document.getElementById("ComponentDiscipline");
+            var length = select.options.length;
+            for (i = length - 1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+            var opt = document.createElement("option");
+            opt.value = "";
+            opt.text = "Select Discipline ";
+            select.add(opt, null);
+
+            EquipmentType = document.getElementById("EquipmentType");
+            Discipline[0].forEach(element => {
+                if (element.EquipmentTypeId == EquipmentType.value && element.ComponentId == ComID.value) {
+                    opt = document.createElement("option");
+                    opt.value = element.DisciplineId;
+                    opt.text = element.DisciplineDescription;
+                    select.add(opt, null);
+                };
+            });
         }
-        var opt = document.createElement("option");
-        opt.value = "";
-        opt.text = "Select Failure ";
-        select.add(opt, null);
 
-        var select = document.getElementById("ComponentDiscipline");
-        var length = select.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            select.options[i] = null;
+        function filterFailure(DisID) {
+            var select = document.getElementById("Failure");
+            var length = select.options.length;
+            for (i = length - 1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+            var opt = document.createElement("option");
+            opt.value = "";
+            opt.text = "Select Failure ";
+            select.add(opt, null);
+
+            Failure[0].forEach(element => {
+                if (element.DisciplineId == DisID.value) {
+                    opt = document.createElement("option");
+                    opt.value = element.FailureId;
+                    opt.text = element.FailureDescription;
+                    select.add(opt, null);
+                };
+            });
         }
-        var opt = document.createElement("option");
-        opt.value = "";
-        opt.text = "Select Discipline ";
-        select.add(opt, null);
-
-        EquipmentType = document.getElementById("EquipmentType");
-        Discipline[0].forEach(element => {
-            if (element.EquipmentTypeId == EquipmentType.value && element.ComponentId == ComID.value) {
-                opt = document.createElement("option");
-                opt.value = element.DisciplineId;
-                opt.text = element.DisciplineDescription;
-                select.add(opt, null);
-            };
-        });
-    }
-
-    function filterFailure(DisID) {
-        var select = document.getElementById("Failure");
-        var length = select.options.length;
-        for (i = length - 1; i >= 0; i--) {
-            select.options[i] = null;
-        }
-        var opt = document.createElement("option");
-        opt.value = "";
-        opt.text = "Select Failure ";
-        select.add(opt, null);
-
-        Failure[0].forEach(element => {
-            if (element.DisciplineId == DisID.value) {
-                opt = document.createElement("option");
-                opt.value = element.FailureId;
-                opt.text = element.FailureDescription;
-                select.add(opt, null);
-            };
-        });
-    }
     </script>
 </body>
 
