@@ -27,14 +27,8 @@
         <!-- NAV START -->
         <nav class="navbar navbar-dark bg-dark rounded">
             <a class="navbar-brand" href="index.php">
-<<<<<<< HEAD
-                <img src="img/icon.png" width="30" height="30" class="d-inline-block align-top  bg-white rounded"
-                    alt="Logo">
-                    KDM - Mining Delays
-=======
                 <img src="img/icon.png" width="30" height="30" class="d-inline-block align-top  bg-white rounded" alt="Logo">
-                Mining Delays
->>>>>>> master
+                KDM - Mining Delays
             </a>
         </nav>
         <!-- NAV END -->
