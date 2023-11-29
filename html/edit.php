@@ -145,7 +145,7 @@ if (isset($_POST['Delay'])) {
 
 
         //SQL Artisan
-        $sql = 'select * from [PDP].[dbo].[vHREmployees] Order by DisplayName';
+        $sql = 'select * from [PDP].[dbo].[tDelaysArtisanSelection] Order by Displayname';
         $sqlargs = array();
         require_once 'config/db_query.php';
         $Art =  sqlQuery($sql, $sqlargs);
@@ -289,8 +289,8 @@ if (isset($_POST['Delay'])) {
                                 var length = select.options.length;
                                 for (const Obb of Artisan[0]) {
                                     var opt = document.createElement("option");
-                                    opt.value = Obb.DisplayName;
-                                    opt.text = Obb.DisplayName;
+                                    opt.value = Obb.Displayname;
+                                    opt.text = Obb.Displayname;
                                     select.add(opt, null);
                                 }
                             </script>
