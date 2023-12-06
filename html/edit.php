@@ -111,14 +111,14 @@ if (isset($_POST['Delay'])) {
         <!-- Main Content Start-->
         <?php
         //SQL Connect Equipment
-        $sql = 'select [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
+        $sql = 'SELECT [PDP].[dbo].[vDelays].* from [PDP].[dbo].[vDelays]
                 WHERE DelayId = :ID;';
         $sqlargs = array('ID' => $_GET['DelayId']);
         require_once 'config/db_query.php';
         $Eq =  sqlQuery($sql, $sqlargs);
 
         //SQL Component
-        $sql = 'select * from [PDP].[dbo].[vEquipTypeComp_Link]
+        $sql = 'SELECT * from [PDP].[dbo].[vEquipTypeComp_Link]
                 WHERE  active = -1 and EquipmentTypeID = :ID
                 ORDER BY ComponentDescription ASC;';
         $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID']);
@@ -126,7 +126,7 @@ if (isset($_POST['Delay'])) {
         $Com =  sqlQuery($sql, $sqlargs);
 
         //SQL Discipline
-        $sql = 'select tDelaysDiscipline.*, tDelaysComponentDisciplineLink.EquipmentTypeId,tDelaysComponentDisciplineLink.ComponentId  from [PDP].[dbo].[tDelaysDiscipline]
+        $sql = 'SELECT tDelaysDiscipline.*, tDelaysComponentDisciplineLink.EquipmentTypeId,tDelaysComponentDisciplineLink.ComponentId  from [PDP].[dbo].[tDelaysDiscipline]
                 Inner Join [PDP].[dbo].[tDelaysComponentDisciplineLink] on [tDelaysComponentDisciplineLink].DisciplineId =  [tDelaysDiscipline].DisciplineId
                 WHERE  active = -1    and EquipmentTypeID = :ID;';
         $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID']);
@@ -135,9 +135,9 @@ if (isset($_POST['Delay'])) {
         echo "<script> let Discipline = [" . json_encode($Des[0]) . "];</script>";
 
         //SQL Failure
-        $sql = 'select[tDelaysFailure].*,tDelaysDisciplineFailureLink.* from [PDP].[dbo].[tDelaysFailure]
-        INNER JOIN [PDP].[dbo].[tDelaysDisciplineFailureLink] on [tDelaysDisciplineFailureLink].FailureId = [tDelaysFailure].FailureId
-        WHERE  active = -1;';
+        $sql = 'SELECT[tDelaysFailure].*,tDelaysDisciplineFailureLink.* from [PDP].[dbo].[tDelaysFailure]
+                INNER JOIN [PDP].[dbo].[tDelaysDisciplineFailureLink] on [tDelaysDisciplineFailureLink].FailureId = [tDelaysFailure].FailureId
+                WHERE  active = -1;';
         $sqlargs = array();
         require_once 'config/db_query.php';
         $Fail =  sqlQuery($sql, $sqlargs);
@@ -145,7 +145,16 @@ if (isset($_POST['Delay'])) {
 
 
         //SQL Artisan
-        $sql = 'select * from [PDP].[dbo].[tDelaysArtisanSelection] Order by Displayname';
+        $sql = 'SELECT
+                tDelaysArtisanSelection.Displayname,
+                tDelaysArtisanSelection.CompanyNumber,
+                tDelaysArtisanSelection.ActiveEmployee
+                From
+                tDelaysArtisanSelection
+                Where
+                tDelaysArtisanSelection.ActiveEmployee = 1
+                Order By
+                tDelaysArtisanSelection.Displayname';
         $sqlargs = array();
         require_once 'config/db_query.php';
         $Art =  sqlQuery($sql, $sqlargs);

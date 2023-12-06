@@ -49,7 +49,7 @@
             </div>
 
             <div class="text-center d-flex flex-column justify-content-center text-light p-5">
-                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href=''">+
+                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='artisanEdit.php'">+
                     Maintain Artisans</button>
             </div>
         </section>
