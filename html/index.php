@@ -27,9 +27,8 @@
         <!-- NAV START -->
         <nav class="navbar navbar-dark bg-dark rounded">
             <a class="navbar-brand" href="index.php">
-                <img src="img/icon.png" width="30" height="30" class="d-inline-block align-top  bg-white rounded"
-                    alt="Logo">
-                    CDM - Plant TMM Delays
+                <img src="img/icon.png" width="30" height="30" class="d-inline-block align-top  bg-white rounded" alt="Logo">
+                CDM - Plant TMM Delays
             </a>
         </nav>
         <!-- NAV END -->
@@ -46,8 +45,12 @@
             <div class="text-center d-flex flex-column justify-content-center text-light p-5">
                 <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='newDelay.php'">+
                     New Delay</button>
-                <button class="btn btn-outline-primary btn-lg my-2"
-                    onclick="document.location.href='Summary.php'">Update Delay</button>
+                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='Summary.php'">Update Delay</button>
+            </div>
+
+            <div class="text-center d-flex flex-column justify-content-center text-light p-5">
+                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href=''">+
+                    Maintain Artisans</button>
             </div>
         </section>
 

@@ -37,25 +37,25 @@
         <!-- Main Content Start-->
         <?php
         $SelectDate = date('Y-m-d');
-        
-        if(isset($_GET['SelectDate'])){
+
+        if (isset($_GET['SelectDate'])) {
             $SelectDate = $_GET['SelectDate'];
         }
 
         #SQL Connect
-        $sql = "select tDelaysActuals.*,
-                tDelaysEquipmentType.EquipmentType,
-                tDelaysEquipmentType.OPType,
-                tDelaysEquipment.EquipmentDescription
-                from [tDelaysActuals]
-                inner join tDelaysEquipmentType on tDelaysEquipmentType.EquipmentTypeID = tDelaysActuals.EquipmentTypeID
-                inner join tDelaysEquipment on tDelaysEquipment.EquipmentID = tDelaysActuals.EquipmentID
-                where (EndTime is NULL OR EndTime = '' )
-                AND OPType = 'TMM'
-                ORDER BY CalendarDateStart DESC;";
+        $sql = "SELECT TOP (100) PERCENT dbo.tDelaysActuals.CalendarDateStart, dbo.tDelaysActuals.StartTime, dbo.tDelaysActuals.EquipmentTypeID, dbo.tDelaysActuals.EquipmentId, dbo.tDelaysActuals.BreakdownDescription, 
+        dbo.tDelaysActuals.ComponentId, dbo.tDelaysActuals.DisciplineId, dbo.tDelaysActuals.FailureId, dbo.tDelaysActuals.TagId, dbo.tDelaysActuals.Tons, dbo.tDelaysActuals.BreakdownHours, dbo.tDelaysActuals.WorkPerformed, 
+        dbo.tDelaysActuals.ArtisanAssigned, dbo.tDelaysActuals.ProgressReport, dbo.tDelaysActuals.DamageDetail, dbo.tDelaysActuals.REQNumber, dbo.tDelaysActuals.CalendarDateEnd, dbo.tDelaysActuals.EndTime, 
+        dbo.tDelaysActuals.UserId, dbo.tDelaysActuals.DateStamp, dbo.tDelaysActuals.DelayId, dbo.tDelaysEquipmentType.EquipmentType, dbo.tDelaysEquipmentType.OPType, dbo.tDelaysEquipment.EquipmentDescription
+        FROM dbo.tDelaysActuals INNER JOIN
+        dbo.tDelaysEquipmentType ON dbo.tDelaysEquipmentType.EquipmentTypeId = dbo.tDelaysActuals.EquipmentTypeID INNER JOIN
+        dbo.tDelaysEquipment ON dbo.tDelaysEquipment.EquipmentId = dbo.tDelaysActuals.EquipmentId AND dbo.tDelaysActuals.EquipmentTypeID = dbo.tDelaysEquipment.EquipmentTypeId
+        WHERE (dbo.tDelaysActuals.EndTime IS NULL OR
+        dbo.tDelaysActuals.EndTime = '') AND (dbo.tDelaysEquipmentType.OPType = 'TMM')
+        ORDER BY dbo.tDelaysActuals.CalendarDateStart DESC;";
         $sqlargs = array();
-        require_once 'config/db_query.php'; 
-        $Delays =  sqlQuery($sql,$sqlargs);
+        require_once 'config/db_query.php';
+        $Delays =  sqlQuery($sql, $sqlargs);
         ?>
 
 
@@ -86,21 +86,20 @@
                     </thead>
                     <tbody>
                         <?php
-                    $i = 0;
-                    foreach ($Delays[0] as $Rec) {
-                    ?>
-                        <form action="edit.php" method="POST">
-                            <tr>
-                                <td> <a class="btn btn-primary btn-block btn-xs"
-                                        href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
-                                </td>
-                                <td><?php echo substr($Rec['CalendarDateStart'],0,10).' '.$Rec['StartTime']; ?>
-                                </td>
-                                <td><?php echo $Rec['EquipmentType']; ?></td>
-                                <td><?php echo $Rec['EquipmentDescription']; ?></td>
-                                <td><?php echo $Rec['BreakdownDescription']; ?></td>
-                            </tr>
-                        </form>
+                        $i = 0;
+                        foreach ($Delays[0] as $Rec) {
+                        ?>
+                            <form action="edit.php" method="POST">
+                                <tr>
+                                    <td> <a class="btn btn-primary btn-block btn-xs" href="edit.php?DelayId=<?php echo $Rec['DelayId'] ?>"><?php echo $Rec['DelayId'] ?></a>
+                                    </td>
+                                    <td><?php echo substr($Rec['CalendarDateStart'], 0, 10) . ' ' . $Rec['StartTime']; ?>
+                                    </td>
+                                    <td><?php echo $Rec['EquipmentType']; ?></td>
+                                    <td><?php echo $Rec['EquipmentDescription']; ?></td>
+                                    <td><?php echo $Rec['BreakdownDescription']; ?></td>
+                                </tr>
+                            </form>
                         <?php
                         }
                         ?>
@@ -118,8 +117,7 @@
                 <!-- Table End -->
             </div>
         </div>
-        <button class="btn btn-outline-primary btn-lg form-control"
-            onclick="document.location.href='index.php'">Home</button><br><br>
+        <button class="btn btn-outline-primary btn-lg form-control" onclick="document.location.href='index.php'">Home</button><br><br>
         <button class="btn btn-outline-info btn-lg form-control" onclick="document.location.href='summaryAll.php'">See
             All
             Delays</button>
@@ -140,24 +138,24 @@
 
     <!-- Page Level JS -->
     <script>
-    $(document).ready(function() {
-        var table = $('#example').DataTable({
-            "scrollX": true,
-            "order": [
-                [0, "desc"]
-            ]
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                "scrollX": true,
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+
+            $('a.toggle-vis').on('click', function(e) {
+                e.preventDefault();
+
+                // Get the column API object
+                var column = table.column($(this).attr('data-column'));
+
+                // Toggle the visibility
+                column.visible(!column.visible());
+            });
         });
-
-        $('a.toggle-vis').on('click', function(e) {
-            e.preventDefault();
-
-            // Get the column API object
-            var column = table.column($(this).attr('data-column'));
-
-            // Toggle the visibility
-            column.visible(!column.visible());
-        });
-    });
     </script>
 
 </body>
