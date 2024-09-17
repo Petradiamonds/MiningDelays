@@ -48,12 +48,32 @@
                 <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='Summary.php'">Update Delay</button>
             </div>
 
-            <div class="text-center d-flex flex-column justify-content-center text-light p-5">
-                <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='artisanEdit.php'">+
-                    Maintain Artisans</button>
+            <hr>
+            <h3 class="text-center text-primary">Maintaintance <button id="maintain-toggle">[+]</button></h3>
+            <div id="maintain" class="mb-5" style="display: none;">
+                <div class="text-center d-flex flex-column justify-content-center text-light px-5">
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='artisanEdit.php'">+
+                        Artisans</button>
+                </div>
+                <div class="text-center d-flex flex-column justify-content-center text-light px-5">
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='equipmentTypeEdit.php'">+
+                        Equipment Type</button>
+                </div>
+                <div class="text-center d-flex flex-column justify-content-center text-light px-5">
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='equipmentEdit.php'">+
+                        Equipment</button>
+                </div>
+                <div class="text-center d-flex flex-column justify-content-center text-light px-5">
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='#'">+
+                        Component</button>
+                </div>
+                <div class="text-center d-flex flex-column justify-content-center text-light px-5">
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='#'">+
+                        Discipline</button>
+                </div>
             </div>
         </section>
-
+        <br><br>
 
     </div>
     <!-- Page End -->
@@ -63,6 +83,20 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- end of Bootstrap JS -->
+
+    <!-- page level JS -->
+    <script>
+        // show & hide maintain section on maintain-toggle click
+        $("#maintain-toggle").click(function() {
+            var x = document.getElementById("maintain");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        });
+    </script>
+    <!-- end of page level JS -->
 
 </body>
 
