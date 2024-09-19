@@ -49,7 +49,7 @@
             </div>
 
             <hr>
-            <h3 class="text-center text-primary">Maintaintance <button id="maintain-toggle">[+]</button></h3>
+            <p class="text-center text-primary font-weight-bold">Maintaintance <button id="maintain-toggle">[+]</button></p>
             <div id="maintain" class="mb-5" style="display: none;">
                 <div class="text-center d-flex flex-column justify-content-center text-light px-5">
                     <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='artisanEdit.php'">+
@@ -64,12 +64,16 @@
                         Equipment</button>
                 </div>
                 <div class="text-center d-flex flex-column justify-content-center text-light px-5">
-                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='#'">+
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='componentEdit.php'">+
                         Component</button>
                 </div>
                 <div class="text-center d-flex flex-column justify-content-center text-light px-5">
-                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='#'">+
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='disiplineEdit.php'">+
                         Discipline</button>
+                </div>
+                <div class="text-center d-flex flex-column justify-content-center text-light px-5">
+                    <button class="btn btn-outline-primary btn-lg my-2" onclick="document.location.href='failureEdit.php'">+
+                        Failure</button>
                 </div>
             </div>
         </section>
