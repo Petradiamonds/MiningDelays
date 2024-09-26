@@ -119,7 +119,7 @@ if (isset($_POST['Delay'])) {
 
         //SQL Component
         $sql = 'SELECT * from [PDP].[dbo].[vEquipTypeComp_Link]
-                WHERE  active = -1 and EquipmentTypeID = :ID
+                WHERE  active = 1 and EquipmentTypeID = :ID
                 ORDER BY ComponentDescription ASC;';
         $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID']);
         require_once 'config/db_query.php';
@@ -128,7 +128,7 @@ if (isset($_POST['Delay'])) {
         //SQL Discipline
         $sql = 'SELECT tDelaysDiscipline.*, tDelaysComponentDisciplineLink.EquipmentTypeId,tDelaysComponentDisciplineLink.ComponentId  from [PDP].[dbo].[tDelaysDiscipline]
                 Inner Join [PDP].[dbo].[tDelaysComponentDisciplineLink] on [tDelaysComponentDisciplineLink].DisciplineId =  [tDelaysDiscipline].DisciplineId
-                WHERE  active = -1    and EquipmentTypeID = :ID;';
+                WHERE  active = 1    and EquipmentTypeID = :ID;';
         $sqlargs = array('ID' => $Eq[0][0]['EquipmentTypeID']);
         require_once 'config/db_query.php';
         $Des =  sqlQuery($sql, $sqlargs);
@@ -137,7 +137,7 @@ if (isset($_POST['Delay'])) {
         //SQL Failure
         $sql = 'SELECT[tDelaysFailure].*,tDelaysDisciplineFailureLink.* from [PDP].[dbo].[tDelaysFailure]
                 INNER JOIN [PDP].[dbo].[tDelaysDisciplineFailureLink] on [tDelaysDisciplineFailureLink].FailureId = [tDelaysFailure].FailureId
-                WHERE  active = -1;';
+                WHERE  active = 1;';
         $sqlargs = array();
         require_once 'config/db_query.php';
         $Fail =  sqlQuery($sql, $sqlargs);
